@@ -5,18 +5,21 @@ import { useRouter } from "next/navigation"
 import AuthPage from "@/components/auth-page"
 
 export default function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("insureflow_user")
     if (loggedInUser) {
-      const user = JSON.parse(loggedInUser)
-      // Only allow customers to access dashboard from home
-      if (user.role === "customer") {
-        setIsLoggedIn(true)
-        router.push("/dashboard")
+      try {
+        const user = JSON.parse(loggedInUser)
+        // Only allow customers to access dashboard from home
+        if (user.role === "customer") {
+          router.push("/dashboard")
+          return
+        }
+      } catch (e) {
+        console.error("Error parsing user data", e)
       }
     }
     setIsLoading(false)
@@ -31,10 +34,6 @@ export default function Home() {
         </div>
       </div>
     )
-  }
-
-  if (isLoggedIn) {
-    return <AuthPage />
   }
 
   return <AuthPage />
