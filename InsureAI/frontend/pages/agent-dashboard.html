@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agent Dashboard – InsurAI</title>
+  <meta name="description" content="InsurAI Agent Portal – Manage availability, appointments, and customer portfolios."/>
+  <link rel="stylesheet" href="../assets/css/main.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="../index.html">
+      <div class="navbar-logo-icon">AI</div>
+      Insur<span class="brand-dot">AI</span>
+    </a>
+    <div class="navbar-actions">
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.875rem;color:var(--text-secondary);">
+        <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#006064,#00ACC1);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.75rem;">AS</div>
+        Anita Singh
+      </div>
+      <span class="badge badge-info">Agent</span>
+      <a href="auth.html" class="btn btn-outline btn-sm">Sign Out</a>
+      <button class="hamburger" onclick="InsurAI.toggleSidebar()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="dashboard-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" style="background:linear-gradient(135deg,#006064,#00ACC1);">AS</div>
+        <div class="sidebar-user-info">
+          <div class="name">Anita Singh</div>
+          <div class="role">Senior Agent · LIC Corp</div>
+        </div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Overview</div>
+      <div class="sidebar-link active" id="nav-adash" onclick="showSection('adash',this)"><span class="icon">🏠</span> Dashboard</div>
+      <div class="sidebar-section-label">Appointments</div>
+      <div class="sidebar-link" id="nav-pending" onclick="showSection('pending',this)"><span class="icon">⏳</span> Pending Requests <span class="badge-count">4</span></div>
+      <div class="sidebar-link" id="nav-upcoming" onclick="showSection('upcoming',this)"><span class="icon">📅</span> Upcoming</div>
+      <div class="sidebar-link" id="nav-ahistory" onclick="showSection('ahistory',this)"><span class="icon">🕒</span> History</div>
+      <div class="sidebar-section-label">Availability</div>
+      <div class="sidebar-link" id="nav-avail" onclick="showSection('avail',this)"><span class="icon">🗓️</span> Set Availability</div>
+      <div class="sidebar-section-label">Customers</div>
+      <div class="sidebar-link" id="nav-customers" onclick="showSection('customers',this)"><span class="icon">👥</span> My Customers</div>
+      <div class="sidebar-section-label">Account</div>
+      <div class="sidebar-link" id="nav-aprofile" onclick="showSection('aprofile',this)"><span class="icon">👤</span> Profile</div>
+      <div class="sidebar-link" onclick="window.location.href='auth.html'"><span class="icon">🚪</span> Sign Out</div>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- ─── AGENT DASHBOARD ─── -->
+    <section id="sec-adash">
+      <div class="page-header">
+        <h2>Good Morning, Anita! 🌟</h2>
+        <p>Here's your performance overview for today, March 8, 2026.</p>
+      </div>
+      <div class="grid-4 mb-4">
+        <div class="stat-card"><div class="stat-icon cyan">📅</div><div><div class="stat-value">4</div><div class="stat-label">Pending Requests</div><div class="stat-change down">Action required</div></div></div>
+        <div class="stat-card"><div class="stat-icon green">✅</div><div><div class="stat-value">3</div><div class="stat-label">Today's Meetings</div><div class="stat-change up">↑ All confirmed</div></div></div>
+        <div class="stat-card"><div class="stat-icon blue">👥</div><div><div class="stat-value">28</div><div class="stat-label">Active Customers</div><div class="stat-change up">↑ 3 new this month</div></div></div>
+        <div class="stat-card"><div class="stat-icon orange">⭐</div><div><div class="stat-value">4.9</div><div class="stat-label">Avg. Rating</div><div class="stat-change up">87 reviews</div></div></div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Today's Schedule -->
+        <div class="card">
+          <div class="card-header"><h4>📅 Today's Schedule</h4><span class="badge badge-primary">March 8</span></div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:1rem;">
+            <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.875rem;background:var(--primary-50);border-radius:var(--radius-md);border:1px solid var(--primary-100);">
+              <div style="text-align:center;min-width:50px;"><div style="font-size:0.75rem;color:var(--primary);font-weight:700;">10:30</div><div style="font-size:0.6875rem;color:var(--text-muted);">AM</div></div>
+              <div style="flex:1;"><div style="font-weight:700;font-size:0.9rem;">Ravi Kumar – Coverage Upgrade</div><div style="font-size:0.8125rem;color:var(--text-muted);">🎥 Video Call · IT Department</div></div>
+              <span class="badge badge-success">Confirmed</span>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.875rem;background:var(--grey-50);border-radius:var(--radius-md);border:1px solid var(--border);">
+              <div style="text-align:center;min-width:50px;"><div style="font-size:0.75rem;color:var(--grey-600);font-weight:700;">02:00</div><div style="font-size:0.6875rem;color:var(--text-muted);">PM</div></div>
+              <div style="flex:1;"><div style="font-weight:700;font-size:0.9rem;">Meena Patel – New Enrollment</div><div style="font-size:0.8125rem;color:var(--text-muted);">📞 Phone Call · Finance Dept</div></div>
+              <span class="badge badge-success">Confirmed</span>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.875rem;background:var(--grey-50);border-radius:var(--radius-md);border:1px solid var(--border);">
+              <div style="text-align:center;min-width:50px;"><div style="font-size:0.75rem;color:var(--grey-600);font-weight:700;">04:30</div><div style="font-size:0.6875rem;color:var(--text-muted);">PM</div></div>
+              <div style="flex:1;"><div style="font-weight:700;font-size:0.9rem;">Suresh Iyer – Policy Review</div><div style="font-size:0.8125rem;color:var(--text-muted);">🎥 Video Call · HR Department</div></div>
+              <span class="badge badge-success">Confirmed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monthly Performance -->
+        <div class="card">
+          <div class="card-header"><h4>📊 Monthly Performance</h4></div>
+          <div class="card-body">
+            <div id="agentPerfChart"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1.25rem;">
+              <div style="padding:0.875rem;background:var(--grey-50);border-radius:var(--radius-md);text-align:center;">
+                <div style="font-size:1.25rem;font-weight:800;color:var(--primary);">87%</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Acceptance Rate</div>
+              </div>
+              <div style="padding:0.875rem;background:var(--grey-50);border-radius:var(--radius-md);text-align:center;">
+                <div style="font-size:1.25rem;font-weight:800;color:var(--success-light);">24</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Appts This Month</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PENDING REQUESTS ─── -->
+    <section id="sec-pending" style="display:none;">
+      <div class="page-header">
+        <h2>⏳ Pending Appointment Requests</h2>
+        <p>Review and respond to appointment requests from employees.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1rem;" id="pendingList"></div>
+    </section>
+
+    <!-- ─── UPCOMING ─── -->
+    <section id="sec-upcoming" style="display:none;">
+      <div class="page-header">
+        <h2>📅 Upcoming Appointments</h2>
+        <p>All confirmed appointments in the next 30 days.</p>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Customer</th><th>Date & Time</th><th>Reason</th><th>Mode</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td><div style="font-weight:600;">Ravi Kumar</div><div style="font-size:0.75rem;color:var(--text-muted);">EMP-20230145 · IT Dept</div></td><td>Mar 9 · 10:30 AM</td><td>Coverage upgrade</td><td>🎥 Video</td><td><span class="badge badge-success badge-dot">Confirmed</span></td><td><div style="display:flex;gap:0.5rem;"><button class="btn btn-success btn-sm" onclick="InsurAI.showToast('Marked as complete','','success')">Complete</button><button class="btn btn-danger btn-sm" onclick="InsurAI.showToast('Cancelled','','error')">Cancel</button></div></td></tr>
+              <tr><td><div style="font-weight:600;">Meena Patel</div><div style="font-size:0.75rem;color:var(--text-muted);">EMP-20230212 · Finance</div></td><td>Mar 9 · 02:00 PM</td><td>New enrollment</td><td>📞 Phone</td><td><span class="badge badge-success badge-dot">Confirmed</span></td><td><div style="display:flex;gap:0.5rem;"><button class="btn btn-success btn-sm" onclick="InsurAI.showToast('Marked as complete','','success')">Complete</button><button class="btn btn-danger btn-sm" onclick="InsurAI.showToast('Cancelled','','error')">Cancel</button></div></td></tr>
+              <tr><td><div style="font-weight:600;">Suresh Iyer</div><div style="font-size:0.75rem;color:var(--text-muted);">EMP-20230198 · HR</div></td><td>Mar 9 · 04:30 PM</td><td>Policy review</td><td>🎥 Video</td><td><span class="badge badge-success badge-dot">Confirmed</span></td><td><div style="display:flex;gap:0.5rem;"><button class="btn btn-success btn-sm" onclick="InsurAI.showToast('Marked as complete','','success')">Complete</button><button class="btn btn-danger btn-sm" onclick="InsurAI.showToast('Cancelled','','error')">Cancel</button></div></td></tr>
+              <tr><td><div style="font-weight:600;">Kavita Desai</div><div style="font-size:0.75rem;color:var(--text-muted);">EMP-20230067 · Legal</div></td><td>Mar 12 · 11:00 AM</td><td>Family floater</td><td>🏢 In-person</td><td><span class="badge badge-success badge-dot">Confirmed</span></td><td><div style="display:flex;gap:0.5rem;"><button class="btn btn-success btn-sm" onclick="InsurAI.showToast('Marked as complete','','success')">Complete</button><button class="btn btn-danger btn-sm" onclick="InsurAI.showToast('Cancelled','','error')">Cancel</button></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── HISTORY ─── -->
+    <section id="sec-ahistory" style="display:none;">
+      <div class="page-header">
+        <h2>🕒 Appointment History</h2>
+        <p>View record of all completed and cancelled appointments.</p>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Customer</th><th>Date</th><th>Reason</th><th>Status</th><th>Rating</th></tr></thead>
+            <tbody>
+              <tr><td>Rahul Verma</td><td>Mar 5, 2026</td><td>Claims assistance</td><td><span class="badge badge-neutral badge-dot">Completed</span></td><td>⭐⭐⭐⭐⭐ (5.0)</td></tr>
+              <tr><td>Deepa Krishnan</td><td>Mar 3, 2026</td><td>Plan upgrade</td><td><span class="badge badge-neutral badge-dot">Completed</span></td><td>⭐⭐⭐⭐⭐ (5.0)</td></tr>
+              <tr><td>Ajit Nair</td><td>Feb 28, 2026</td><td>New enrollment</td><td><span class="badge badge-neutral badge-dot">Completed</span></td><td>⭐⭐⭐⭐ (4.0)</td></tr>
+              <tr><td>Sita Ramesh</td><td>Feb 25, 2026</td><td>Policy review</td><td><span class="badge badge-danger badge-dot">Cancelled</span></td><td>—</td></tr>
+              <tr><td>Vijay Gopal</td><td>Feb 20, 2026</td><td>Coverage query</td><td><span class="badge badge-neutral badge-dot">Completed</span></td><td>⭐⭐⭐⭐⭐ (5.0)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SET AVAILABILITY ─── -->
+    <section id="sec-avail" style="display:none;">
+      <div class="page-header">
+        <h2>🗓️ Set Availability</h2>
+        <p>Configure your available slots for appointment bookings.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h4>Weekly Schedule</h4></div>
+          <div class="card-body" id="weeklySchedule" style="display:flex;flex-direction:column;gap:0.875rem;"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h4>Block Time Off</h4></div>
+          <div class="card-body">
+            <div class="form-group"><label class="form-label">From Date</label><input class="form-control" type="date" value="2026-03-15"/></div>
+            <div class="form-group"><label class="form-label">To Date</label><input class="form-control" type="date" value="2026-03-17"/></div>
+            <div class="form-group"><label class="form-label">Reason</label><select class="form-control"><option>Personal Leave</option><option>Training</option><option>Office Holiday</option><option>Medical Leave</option></select></div>
+            <button class="btn btn-primary w-full" onclick="InsurAI.showToast('Time off blocked','Mar 15-17 marked as unavailable.','success')">Block These Dates</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── CUSTOMERS ─── -->
+    <section id="sec-customers" style="display:none;">
+      <div class="page-header">
+        <h2>👥 My Customers</h2>
+        <p>View and manage your assigned customer portfolio.</p>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+        <div class="search-bar"><span>🔍</span><input type="text" placeholder="Search customers..."/></div>
+        <div class="filter-bar">
+          <div class="filter-chip active">All (28)</div>
+          <div class="filter-chip">Active (25)</div>
+          <div class="filter-chip">Renewal Due (6)</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Employee</th><th>Department</th><th>Plan</th><th>Coverage</th><th>Renewal</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="customerTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PROFILE ─── -->
+    <section id="sec-aprofile" style="display:none;">
+      <div class="page-header"><h2>👤 Agent Profile</h2><p>Manage your professional profile and credentials.</p></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h4>Professional Information</h4><button class="btn btn-outline btn-sm" onclick="InsurAI.showToast('Edit mode enabled','','info')">Edit</button></div>
+          <div class="card-body">
+            <div style="display:flex;align-items:center;gap:1.25rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);">
+              <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#006064,#00ACC1);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:1.5rem;">AS</div>
+              <div><div style="font-size:1.25rem;font-weight:700;">Anita Singh</div><div style="font-size:0.875rem;color:var(--text-muted);">anita.singh@liccorp.com</div><span class="badge badge-info mt-1">Senior Agent</span></div>
+            </div>
+            <div class="form-group"><label class="form-label">Full Name</label><input class="form-control" value="Anita Singh" readonly/></div>
+            <div class="form-group"><label class="form-label">Company</label><input class="form-control" value="LIC Corporation" readonly/></div>
+            <div class="form-group"><label class="form-label">License No.</label><input class="form-control" value="LIC-2024-AGT-08741" readonly/></div>
+            <div class="form-group"><label class="form-label">Specialization</label><input class="form-control" value="Health & Life Insurance" readonly/></div>
+            <div class="form-group"><label class="form-label">Experience</label><input class="form-control" value="8 Years" readonly/></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h4>Performance Summary</h4></div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:1.25rem;">
+            <div style="padding:1rem;background:var(--primary-50);border-radius:var(--radius-md);">
+              <div style="font-size:2rem;font-weight:800;color:var(--primary);">4.9 / 5.0 ⭐</div>
+              <div style="font-size:0.875rem;color:var(--text-muted);margin-top:0.25rem;">Average customer rating from 87 reviews</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+              <div style="padding:0.875rem;background:var(--grey-50);border-radius:var(--radius-md);text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--success-light);">287</div><div style="font-size:0.75rem;color:var(--text-muted);">Total Appts</div></div>
+              <div style="padding:0.875rem;background:var(--grey-50);border-radius:var(--radius-md);text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--primary);">28</div><div style="font-size:0.75rem;color:var(--text-muted);">Active Clients</div></div>
+              <div style="padding:0.875rem;background:var(--grey-50);border-radius:var(--radius-md);text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--warning-light);">87%</div><div style="font-size:0.75rem;color:var(--text-muted);">Accept Rate</div></div>
+              <div style="padding:0.875rem;background:var(--grey-50);border-radius:var(--radius-md);text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--accent);">8 yrs</div><div style="font-size:0.75rem;color:var(--text-muted);">Experience</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="../assets/js/app.js"></script>
+<script>
+const pendingRequests = [
+  { name:'Kiran Bhat', dept:'Engineering', date:'Mar 10, 2026', time:'11:00 AM', reason:'Plan upgrade to Enterprise', mode:'🎥 Video' },
+  { name:'Pooja Agarwal', dept:'Marketing', date:'Mar 11, 2026', time:'02:30 PM', reason:'Adding spouse to coverage', mode:'📞 Phone' },
+  { name:'Sanjay Tiwari', dept:'Operations', date:'Mar 12, 2026', time:'10:00 AM', reason:'Claims assistance', mode:'🎥 Video' },
+  { name:'Nandita Rao', dept:'Finance', date:'Mar 13, 2026', time:'03:00 PM', reason:'New enrollment query', mode:'🏢 In-person' },
+];
+
+const customers = [
+  { name:'Ravi Kumar', dept:'IT', plan:'Premium Health', coverage:'₹7L', renewal:'Jul 2026', status:'active' },
+  { name:'Meena Patel', dept:'Finance', plan:'Basic Health', coverage:'₹3L', renewal:'May 2026', status:'renewal' },
+  { name:'Suresh Iyer', dept:'HR', plan:'Premium Health', coverage:'₹7L', renewal:'Aug 2026', status:'active' },
+  { name:'Kavita Desai', dept:'Legal', plan:'Enterprise', coverage:'₹20L', renewal:'Sep 2026', status:'active' },
+  { name:'Rahul Verma', dept:'Sales', plan:'Basic Health', coverage:'₹3L', renewal:'Apr 2026', status:'renewal' },
+  { name:'Deepa Krishnan', dept:'R&D', plan:'Premium Health', coverage:'₹7L', renewal:'Jul 2026', status:'active' },
+];
+
+const weekDays = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const weekEnabled = [true,true,true,true,true,false,false];
+
+function renderPending() {
+  const el = document.getElementById('pendingList');
+  if (!el) return;
+  el.innerHTML = pendingRequests.map((r,i) => `
+    <div class="card" style="border-left:4px solid var(--warning-light);">
+      <div class="card-body">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+          <div style="display:flex;gap:1rem;align-items:center;">
+            <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1rem;flex-shrink:0;">${r.name.split(' ').map(n=>n[0]).join('')}</div>
+            <div>
+              <div style="font-weight:700;font-size:1rem;">${r.name}</div>
+              <div style="font-size:0.8125rem;color:var(--text-muted);">${r.dept} Department</div>
+              <div style="font-size:0.875rem;color:var(--primary);font-weight:600;margin-top:0.25rem;">📅 ${r.date} · ${r.time} · ${r.mode}</div>
+              <div style="font-size:0.875rem;color:var(--text-secondary);margin-top:0.25rem;"><strong>Reason:</strong> ${r.reason}</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:center;">
+            <button class="btn btn-success btn-sm" onclick="acceptReq(${i})">✓ Accept</button>
+            <button class="btn btn-danger btn-sm" onclick="rejectReq(${i})">✕ Reject</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function acceptReq(i) {
+  InsurAI.showToast('Appointment Accepted!', `${pendingRequests[i].name}'s request has been confirmed.`, 'success');
+  pendingRequests.splice(i, 1);
+  renderPending();
+}
+function rejectReq(i) {
+  InsurAI.showToast('Appointment Rejected', `${pendingRequests[i].name}'s request has been declined.`, 'error');
+  pendingRequests.splice(i, 1);
+  renderPending();
+}
+
+function renderCustomers() {
+  const el = document.getElementById('customerTable');
+  if (!el) return;
+  el.innerHTML = customers.map(c => `
+    <tr>
+      <td><div style="font-weight:600;">${c.name}</div></td>
+      <td>${c.dept}</td>
+      <td>${c.plan}</td>
+      <td style="font-weight:700;color:var(--primary);">${c.coverage}</td>
+      <td>${c.renewal}</td>
+      <td>${c.status==='renewal'?'<span class="badge badge-warning badge-dot">Renewal Due</span>':'<span class="badge badge-success badge-dot">Active</span>'}</td>
+      <td><div style="display:flex;gap:0.5rem;"><button class="btn btn-outline btn-sm" onclick="InsurAI.showToast('Scheduling...','Opening book form','info')">Book</button><button class="btn btn-outline btn-sm" onclick="InsurAI.showToast('Profile opened','','info')">View</button></div></td>
+    </tr>`).join('');
+}
+
+function renderWeekly() {
+  const el = document.getElementById('weeklySchedule');
+  if (!el) return;
+  el.innerHTML = weekDays.map((day, i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.75rem;border-radius:var(--radius-md);background:${weekEnabled[i]?'var(--primary-50)':'var(--grey-50)'};border:1px solid ${weekEnabled[i]?'var(--primary-100)':'var(--border)'};">
+      <div style="display:flex;align-items:center;gap:0.875rem;">
+        <label style="position:relative;cursor:pointer;">
+          <input type="checkbox" ${weekEnabled[i]?'checked':''} style="accent-color:var(--primary);width:18px;height:18px;" onchange="toggleDay(${i},this)">
+        </label>
+        <span style="font-weight:${weekEnabled[i]?'600':'400'};color:${weekEnabled[i]?'var(--text-primary)':'var(--text-muted)'};">${day}</span>
+      </div>
+      ${weekEnabled[i]?`
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <input type="time" value="${i<5?'09:00':'10:00'}" style="border:1px solid var(--border);border-radius:6px;padding:0.25rem 0.5rem;font-size:0.8125rem;" />
+          <span style="font-size:0.75rem;color:var(--text-muted);">to</span>
+          <input type="time" value="${i<5?'18:00':'14:00'}" style="border:1px solid var(--border);border-radius:6px;padding:0.25rem 0.5rem;font-size:0.8125rem;" />
+        </div>` : '<span style="font-size:0.8125rem;color:var(--text-muted);">Not Available</span>'}
+    </div>`).join('');
+}
+
+function toggleDay(i, el) {
+  weekEnabled[i] = el.checked;
+  renderWeekly();
+}
+
+function showSection(name, clickedEl) {
+  const sections = ['adash','pending','upcoming','ahistory','avail','customers','aprofile'];
+  sections.forEach(s => { const el=document.getElementById('sec-'+s); if(el) el.style.display=s===name?'block':'none'; });
+  document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
+  if (clickedEl) clickedEl.classList.add('active');
+  window.scrollTo(0,0);
+  if (name==='pending') renderPending();
+  if (name==='customers') renderCustomers();
+  if (name==='avail') renderWeekly();
+}
+
+// Init bar chart
+InsurAI.renderBarChart('agentPerfChart', [
+  {label:'Oct',value:18},{label:'Nov',value:22},{label:'Dec',value:15},{label:'Jan',value:20},{label:'Feb',value:19},{label:'Mar',value:24}
+]);
+</script>
+</body>
+</html>

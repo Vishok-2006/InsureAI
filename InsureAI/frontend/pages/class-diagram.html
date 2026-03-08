@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>System Architecture & Class Diagram – InsurAI</title>
+  <meta name="description" content="InsurAI system class diagram, entity relationships, REST API endpoints, and technical architecture details for internship submission."/>
+  <link rel="stylesheet" href="../assets/css/main.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="../index.html">
+      <div class="navbar-logo-icon">AI</div>
+      Insur<span class="brand-dot">AI</span>
+    </a>
+    <div class="navbar-links">
+      <a href="../index.html">Home</a>
+      <a href="plans.html">Plans</a>
+      <a href="class-diagram.html" class="active">Architecture</a>
+    </div>
+    <div class="navbar-actions">
+      <a href="auth.html" class="btn btn-outline btn-sm">Login</a>
+    </div>
+  </div>
+</nav>
+
+<div style="padding-top:var(--nav-height);">
+
+  <!-- Header -->
+  <div style="background:linear-gradient(135deg,#0D47A1,#1565C0,#0097A7);padding:4rem 0;text-align:center;">
+    <div class="container">
+      <div class="section-label" style="justify-content:center;color:rgba(255,255,255,0.7);">
+        <span style="width:24px;height:3px;background:rgba(255,255,255,0.5);border-radius:2px;display:inline-block;"></span>
+        Technical Documentation
+      </div>
+      <h1 style="color:white;margin-bottom:1rem;">System Architecture &amp;<br/>Class Diagram</h1>
+      <p style="color:rgba(255,255,255,0.8);max-width:600px;margin:0 auto;">InsurAI – Corporate Insurance Automation &amp; Intelligence System<br/>Full-stack technical architecture for internship submission 2026.</p>
+    </div>
+  </div>
+
+  <div class="container section">
+
+    <!-- Tech Stack -->
+    <div class="mb-4">
+      <div class="section-label">Technology Stack</div>
+      <h2 class="mb-3">Platform Technology Overview</h2>
+      <div class="grid-4">
+        <div class="card text-center" style="border-top:4px solid var(--primary);">
+          <div class="card-body">
+            <div style="font-size:2rem;margin-bottom:0.75rem;">⚛️</div>
+            <h4>Frontend</h4>
+            <p style="font-size:0.875rem;">React.js (HTML5 + CSS3 + JavaScript)<br/>Responsive · SPA Architecture</p>
+          </div>
+        </div>
+        <div class="card text-center" style="border-top:4px solid var(--success-light);">
+          <div class="card-body">
+            <div style="font-size:2rem;margin-bottom:0.75rem;">🍃</div>
+            <h4>Backend</h4>
+            <p style="font-size:0.875rem;">Spring Boot 3.x<br/>REST API · MVC Pattern</p>
+          </div>
+        </div>
+        <div class="card text-center" style="border-top:4px solid var(--warning-light);">
+          <div class="card-body">
+            <div style="font-size:2rem;margin-bottom:0.75rem;">🗄️</div>
+            <h4>Database</h4>
+            <p style="font-size:0.875rem;">MySQL 8.0<br/>JPA · Hibernate ORM</p>
+          </div>
+        </div>
+        <div class="card text-center" style="border-top:4px solid var(--accent);">
+          <div class="card-body">
+            <div style="font-size:2rem;margin-bottom:0.75rem;">🔐</div>
+            <h4>Security</h4>
+            <p style="font-size:0.875rem;">JWT Authentication<br/>Spring Security · RBAC</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Architecture Diagram -->
+    <div class="card mb-4">
+      <div class="card-header"><h3>🏗️ System Architecture</h3><span class="badge badge-primary">3-Tier</span></div>
+      <div class="card-body">
+        <div style="max-width:900px;margin:0 auto;">
+          <!-- Architecture Diagram (Pure CSS/HTML) -->
+          <div style="display:grid;grid-template-rows:auto auto auto;gap:1.5rem;text-align:center;">
+            <!-- Presentation Layer -->
+            <div style="background:var(--primary-50);border:2px solid var(--primary-100);border-radius:var(--radius-lg);padding:1.5rem;">
+              <div style="font-size:0.75rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Presentation Layer (Frontend)</div>
+              <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+                <div style="background:white;border:1px solid var(--primary);border-radius:var(--radius-md);padding:0.75rem 1.25rem;font-size:0.875rem;font-weight:600;color:var(--primary);">🏠 Home Page</div>
+                <div style="background:white;border:1px solid var(--primary);border-radius:var(--radius-md);padding:0.75rem 1.25rem;font-size:0.875rem;font-weight:600;color:var(--primary);">🔐 Auth Page</div>
+                <div style="background:white;border:1px solid var(--primary);border-radius:var(--radius-md);padding:0.75rem 1.25rem;font-size:0.875rem;font-weight:600;color:var(--primary);">👤 Employee Dashboard</div>
+                <div style="background:white;border:1px solid var(--primary);border-radius:var(--radius-md);padding:0.75rem 1.25rem;font-size:0.875rem;font-weight:600;color:var(--primary);">🧑‍💼 Agent Dashboard</div>
+                <div style="background:white;border:1px solid var(--primary);border-radius:var(--radius-md);padding:0.75rem 1.25rem;font-size:0.875rem;font-weight:600;color:var(--primary);">⚙️ Admin Dashboard</div>
+                <div style="background:white;border:1px solid var(--primary);border-radius:var(--radius-md);padding:0.75rem 1.25rem;font-size:0.875rem;font-weight:600;color:var(--primary);">📋 Plans Page</div>
+              </div>
+            </div>
+            <!-- Arrow -->
+            <div style="display:flex;justify-content:center;align-items:center;gap:0.5rem;font-size:0.875rem;color:var(--text-muted);font-weight:600;">
+              <div style="width:1px;height:24px;background:var(--grey-400);"></div>
+              <span>JWT Token · REST API (HTTP/HTTPS)</span>
+              <div style="width:1px;height:24px;background:var(--grey-400);"></div>
+            </div>
+            <!-- Business Logic Layer -->
+            <div style="background:#E8F5E9;border:2px solid #A5D6A7;border-radius:var(--radius-lg);padding:1.5rem;">
+              <div style="font-size:0.75rem;font-weight:700;color:var(--success);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Business Logic Layer (Spring Boot Backend)</div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+                <div style="background:white;border:1px solid #A5D6A7;border-radius:var(--radius-md);padding:1rem;">
+                  <div style="font-weight:700;font-size:0.875rem;margin-bottom:0.5rem;color:var(--success);">🎮 Controllers</div>
+                  <div style="font-size:0.75rem;color:var(--text-muted);line-height:1.8;">UserController<br/>AgentController<br/>AppointmentController<br/>PlanController<br/>NotificationController</div>
+                </div>
+                <div style="background:white;border:1px solid #A5D6A7;border-radius:var(--radius-md);padding:1rem;">
+                  <div style="font-weight:700;font-size:0.875rem;margin-bottom:0.5rem;color:var(--success);">⚙️ Services</div>
+                  <div style="font-size:0.75rem;color:var(--text-muted);line-height:1.8;">UserService<br/>AgentService<br/>AppointmentService<br/>PlanService<br/>NotificationService<br/>VoiceAIService</div>
+                </div>
+                <div style="background:white;border:1px solid #A5D6A7;border-radius:var(--radius-md);padding:1rem;">
+                  <div style="font-weight:700;font-size:0.875rem;margin-bottom:0.5rem;color:var(--success);">🔐 Security</div>
+                  <div style="font-size:0.75rem;color:var(--text-muted);line-height:1.8;">JwtFilter<br/>JwtUtil<br/>AuthService<br/>CustomUserDetails<br/>SecurityConfig</div>
+                </div>
+              </div>
+            </div>
+            <!-- Arrow -->
+            <div style="display:flex;justify-content:center;align-items:center;font-size:0.875rem;color:var(--text-muted);font-weight:600;">JPA / Hibernate ORM</div>
+            <!-- Data Layer -->
+            <div style="background:#FFF3E0;border:2px solid #FFCC80;border-radius:var(--radius-lg);padding:1.5rem;">
+              <div style="font-size:0.75rem;font-weight:700;color:#E65100;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Data Layer (MySQL Database)</div>
+              <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+                <div style="background:white;border:1px solid #FFCC80;border-radius:var(--radius-md);padding:0.625rem 1rem;font-size:0.8125rem;font-weight:600;color:#E65100;">users</div>
+                <div style="background:white;border:1px solid #FFCC80;border-radius:var(--radius-md);padding:0.625rem 1rem;font-size:0.8125rem;font-weight:600;color:#E65100;">agents</div>
+                <div style="background:white;border:1px solid #FFCC80;border-radius:var(--radius-md);padding:0.625rem 1rem;font-size:0.8125rem;font-weight:600;color:#E65100;">appointments</div>
+                <div style="background:white;border:1px solid #FFCC80;border-radius:var(--radius-md);padding:0.625rem 1rem;font-size:0.8125rem;font-weight:600;color:#E65100;">plans</div>
+                <div style="background:white;border:1px solid #FFCC80;border-radius:var(--radius-md);padding:0.625rem 1rem;font-size:0.8125rem;font-weight:600;color:#E65100;">notifications</div>
+                <div style="background:white;border:1px solid #FFCC80;border-radius:var(--radius-md);padding:0.625rem 1rem;font-size:0.8125rem;font-weight:600;color:#E65100;">admin_logs</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Class Diagram -->
+    <div class="section-label mb-2">Entity Class Diagram</div>
+    <h2 class="mb-3">UML Class Diagram</h2>
+    <div class="grid-3 mb-4" id="classCards"></div>
+
+    <!-- ER Relationships -->
+    <div class="card mb-4">
+      <div class="card-header"><h3>🔗 Entity Relationships</h3></div>
+      <div class="card-body">
+        <div style="display:flex;flex-direction:column;gap:0.875rem;" id="erList"></div>
+      </div>
+    </div>
+
+    <!-- REST API Endpoints -->
+    <div class="card mb-4">
+      <div class="card-header"><h3>🌐 REST API Endpoints</h3><span class="badge badge-success">Spring Boot</span></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th><th>Auth</th></tr></thead>
+          <tbody id="apiTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Screenshots Section -->
+    <div class="section-label mb-2">Project Showcase</div>
+    <h2 class="mb-3">📸 Screenshots Placeholder</h2>
+    <p class="section-desc mb-4">Below are placeholder sections for actual application screenshots for internship submission.</p>
+    <div class="grid-3" id="screenshotGrid"></div>
+
+    <!-- Project Info Footer -->
+    <div class="card mt-4" style="background:linear-gradient(135deg,#0D47A1,#1565C0);color:white;border:none;">
+      <div class="card-body" style="text-align:center;padding:3rem;">
+        <h3 style="color:white;margin-bottom:1rem;">InsurAI – Internship Project</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:700px;margin:0 auto 2rem;flex-wrap:wrap;">
+          <div><div style="font-size:0.75rem;opacity:0.7;margin-bottom:0.25rem;">Project Name</div><div style="font-weight:700;font-size:0.9375rem;">InsurAI</div></div>
+          <div><div style="font-size:0.75rem;opacity:0.7;margin-bottom:0.25rem;">Year</div><div style="font-weight:700;font-size:0.9375rem;">2025–2026</div></div>
+          <div><div style="font-size:0.75rem;opacity:0.7;margin-bottom:0.25rem;">Domain</div><div style="font-weight:700;font-size:0.9375rem;">InsurTech / AI</div></div>
+          <div><div style="font-size:0.75rem;opacity:0.7;margin-bottom:0.25rem;">Stack</div><div style="font-weight:700;font-size:0.9375rem;">React + Spring</div></div>
+        </div>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+          <a href="../index.html" class="btn btn-white">🏠 View Demo</a>
+          <a href="auth.html" class="btn btn-outline-white">🚀 Try Platform</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;">
+      <p>© 2026 InsurAI – AI-Powered Corporate Insurance Management System. Internship Project.</p>
+      <div class="footer-tags">
+        <span class="footer-tag">React</span><span class="footer-tag">Spring Boot</span><span class="footer-tag">MySQL</span><span class="footer-tag">JWT</span><span class="footer-tag">Voice AI</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/app.js"></script>
+<script>
+const classes = [
+  {
+    name:'User', icon:'👤', color:'#1565C0',
+    fields:[
+      'Long id [PK]', 'String firstName', 'String lastName', 'String email [UNIQUE]',
+      'String passwordHash', 'Role role [ENUM]', 'String phone', 'String department',
+      'String employeeId', 'Boolean emailVerified', 'LocalDateTime createdAt', 'LocalDateTime updatedAt'
+    ],
+    methods:['register()', 'login()', 'updateProfile()', 'verifyEmail()', 'resetPassword()'],
+  },
+  {
+    name:'Agent', icon:'🧑‍💼', color:'#00897B',
+    fields:[
+      'Long id [PK]', 'String firstName', 'String lastName', 'String email', 'String phone',
+      'String company', 'String licenseNo', 'String specialization',
+      'Integer yearsExperience', 'Double averageRating', 'Boolean isAvailable', 'LocalDateTime createdAt'
+    ],
+    methods:['setAvailability()', 'acceptAppointment()', 'rejectAppointment()', 'viewCustomers()', 'updateProfile()'],
+  },
+  {
+    name:'Appointment', icon:'📅', color:'#7B1FA2',
+    fields:[
+      'Long id [PK]', 'Long userId [FK → User]', 'Long agentId [FK → Agent]',
+      'LocalDate appointmentDate', 'LocalTime appointmentTime', 'String reason',
+      'MeetingMode mode [ENUM]', 'AppointmentStatus status [ENUM]', 'String notes',
+      'LocalDateTime createdAt', 'LocalDateTime updatedAt'
+    ],
+    methods:['book()', 'confirm()', 'cancel()', 'reschedule()', 'complete()', 'checkConflict()'],
+  },
+  {
+    name:'Plan', icon:'📋', color:'#E65100',
+    fields:[
+      'Long id [PK]', 'String planName', 'PlanCategory category [ENUM]',
+      'BigDecimal monthlyPremium', 'BigDecimal coverageAmount',
+      'String description', 'String eligibility', 'List<String> features',
+      'Boolean isActive', 'LocalDateTime createdAt'
+    ],
+    methods:['activate()', 'deactivate()', 'assignToUser()', 'comparePlans()', 'updatePricing()'],
+  },
+  {
+    name:'Notification', icon:'🔔', color:'#C62828',
+    fields:[
+      'Long id [PK]', 'Long userId [FK → User]', 'NotificationType type [ENUM]',
+      'String title', 'String message', 'String channel [EMAIL/SMS/INAPP]',
+      'Boolean isRead', 'LocalDateTime scheduledAt', 'LocalDateTime sentAt', 'LocalDateTime createdAt'
+    ],
+    methods:['send()', 'markAsRead()', 'scheduleNotification()', 'sendBulk()', 'retry()'],
+  },
+  {
+    name:'Admin', icon:'⚙️', color:'#4A148C',
+    fields:[
+      'Long id [PK]', 'String username', 'String email', 'String passwordHash',
+      'AdminRole role [ENUM]', 'String permissions',
+      'LocalDateTime lastLogin', 'LocalDateTime createdAt'
+    ],
+    methods:['manageUsers()', 'manageAgents()', 'managePlans()', 'viewAllAppointments()', 'sendBulkNotification()', 'generateReport()'],
+  },
+];
+
+const erRelations = [
+  { from:'User', to:'Appointment', rel:'One-to-Many', desc:'A User can have many Appointments; each Appointment belongs to one User.' },
+  { from:'Agent', to:'Appointment', rel:'One-to-Many', desc:'An Agent can handle many Appointments; each Appointment is assigned to one Agent.' },
+  { from:'User', to:'Plan', rel:'Many-to-Many', desc:'A User can be enrolled in multiple Plans; a Plan can have many Users assigned.' },
+  { from:'User', to:'Notification', rel:'One-to-Many', desc:'A User receives many Notifications; each Notification targets one User.' },
+  { from:'Admin', to:'User', rel:'One-to-Many', desc:'An Admin manages many Users; actions are logged in admin_logs.' },
+  { from:'Admin', to:'Agent', rel:'One-to-Many', desc:'An Admin manages agent profiles, verifies credentials, and controls availability.' },
+  { from:'Admin', to:'Plan', rel:'One-to-Many', desc:'Admins create, edit, activate, and deactivate insurance Plans.' },
+  { from:'Appointment', to:'Notification', rel:'One-to-Many', desc:'Each Appointment triggers multiple Notifications (confirmation, reminder, completion).' },
+];
+
+const apiEndpoints = [
+  { method:'POST', endpoint:'/api/auth/register', desc:'Register a new User or Agent', auth:'Public' },
+  { method:'POST', endpoint:'/api/auth/login', desc:'Login and receive JWT token', auth:'Public' },
+  { method:'POST', endpoint:'/api/auth/forgot-password', desc:'Send password reset email', auth:'Public' },
+  { method:'GET', endpoint:'/api/users/me', desc:'Get current user profile', auth:'Employee/Agent/Admin' },
+  { method:'PUT', endpoint:'/api/users/{id}', desc:'Update user profile', auth:'Employee/Admin' },
+  { method:'GET', endpoint:'/api/agents', desc:'Get all available agents', auth:'Employee/Admin' },
+  { method:'GET', endpoint:'/api/agents/{id}/availability', desc:'Get agent availability slots', auth:'Employee' },
+  { method:'PUT', endpoint:'/api/agents/{id}/availability', desc:'Set agent availability', auth:'Agent' },
+  { method:'POST', endpoint:'/api/appointments', desc:'Book a new appointment', auth:'Employee' },
+  { method:'GET', endpoint:'/api/appointments/user/{id}', desc:'Get appointments for a user', auth:'Employee/Admin' },
+  { method:'GET', endpoint:'/api/appointments/agent/{id}', desc:'Get appointments for an agent', auth:'Agent/Admin' },
+  { method:'PUT', endpoint:'/api/appointments/{id}/accept', desc:'Agent accepts appointment', auth:'Agent' },
+  { method:'PUT', endpoint:'/api/appointments/{id}/reject', desc:'Agent rejects appointment', auth:'Agent' },
+  { method:'PUT', endpoint:'/api/appointments/{id}/cancel', desc:'Cancel an appointment', auth:'Employee/Agent/Admin' },
+  { method:'GET', endpoint:'/api/plans', desc:'Get all insurance plans', auth:'Public' },
+  { method:'POST', endpoint:'/api/plans', desc:'Create a new plan', auth:'Admin' },
+  { method:'PUT', endpoint:'/api/plans/{id}', desc:'Update a plan', auth:'Admin' },
+  { method:'GET', endpoint:'/api/notifications/user/{id}', desc:'Get user notifications', auth:'Employee/Agent' },
+  { method:'PUT', endpoint:'/api/notifications/{id}/read', desc:'Mark notification as read', auth:'Employee/Agent' },
+  { method:'POST', endpoint:'/api/notifications/bulk', desc:'Send bulk notification', auth:'Admin' },
+  { method:'GET', endpoint:'/api/admin/analytics', desc:'Get platform analytics', auth:'Admin' },
+];
+
+const screenshots = [
+  { label:'Home Page', icon:'🏠', desc:'Hero section with AI features showcase' },
+  { label:'Auth Page', icon:'🔐', desc:'Login/Register with role selection' },
+  { label:'Employee Dashboard', icon:'👤', desc:'Policy overview, appointments, AI voice' },
+  { label:'Agent Dashboard', icon:'🧑‍💼', desc:'Schedule, pending requests, customers' },
+  { label:'Admin Analytics', icon:'📊', desc:'Bar charts, donut charts, KPI cards' },
+  { label:'Plans Page', icon:'📋', desc:'Filterable plan grid with comparison table' },
+];
+
+const methodColors = { 'GET':'#2E7D32', 'POST':'#1565C0', 'PUT':'#E65100', 'DELETE':'#C62828', 'PATCH':'#6A1B9A' };
+
+function renderClasses() {
+  const el = document.getElementById('classCards');
+  el.innerHTML = classes.map(c => `
+    <div class="card" style="border-top:4px solid ${c.color};">
+      <div class="card-header" style="background:${c.color}10;">
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="font-size:1.25rem;">${c.icon}</span>
+          <h4 style="color:${c.color};">«Entity» ${c.name}</h4>
+        </div>
+        <span style="font-size:0.6875rem;font-weight:700;background:${c.color};color:white;padding:0.2rem 0.5rem;border-radius:4px;">@Entity</span>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <div style="border-bottom:2px solid var(--border);padding:0.875rem 1.25rem;">
+          <div style="font-size:0.6875rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Fields</div>
+          ${c.fields.map(f => `<div style="font-size:0.8rem;padding:0.1875rem 0;color:var(--text-secondary);font-family:'Courier New',monospace;">– ${f}</div>`).join('')}
+        </div>
+        <div style="padding:0.875rem 1.25rem;">
+          <div style="font-size:0.6875rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Methods</div>
+          ${c.methods.map(m => `<div style="font-size:0.8rem;padding:0.1875rem 0;color:${c.color};font-family:'Courier New',monospace;font-weight:600;">+ ${m}</div>`).join('')}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderER() {
+  const el = document.getElementById('erList');
+  el.innerHTML = erRelations.map(r => `
+    <div style="display:flex;align-items:flex-start;gap:1.25rem;padding:1rem;border:1px solid var(--border);border-radius:var(--radius-md);">
+      <div style="display:flex;align-items:center;gap:0.5rem;flex-shrink:0;flex-wrap:wrap;">
+        <div style="background:var(--primary);color:white;border-radius:var(--radius-sm);padding:0.375rem 0.75rem;font-size:0.8125rem;font-weight:700;">${r.from}</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);font-weight:600;white-space:nowrap;">${r.rel} ──▶</div>
+        <div style="background:var(--accent);color:white;border-radius:var(--radius-sm);padding:0.375rem 0.75rem;font-size:0.8125rem;font-weight:700;">${r.to}</div>
+      </div>
+      <div style="font-size:0.875rem;color:var(--text-secondary);">${r.desc}</div>
+    </div>`).join('');
+}
+
+function renderAPI() {
+  const el = document.getElementById('apiTable');
+  el.innerHTML = apiEndpoints.map(e => `
+    <tr>
+      <td><span style="background:${methodColors[e.method]}18;color:${methodColors[e.method]};font-weight:700;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:4px;font-family:monospace;">${e.method}</span></td>
+      <td style="font-family:'Courier New',monospace;font-size:0.815rem;color:var(--primary);">${e.endpoint}</td>
+      <td style="font-size:0.875rem;">${e.desc}</td>
+      <td><span class="badge ${e.auth==='Public'?'badge-neutral':e.auth==='Admin'?'badge-danger':'badge-primary'}">${e.auth}</span></td>
+    </tr>`).join('');
+}
+
+function renderScreenshots() {
+  const el = document.getElementById('screenshotGrid');
+  el.innerHTML = screenshots.map(s => `
+    <div class="card" style="cursor:pointer;" onclick="InsurAI.showToast('Screenshot','Replace this with an actual screenshot for submission.','info')">
+      <div style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB);height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;border-bottom:1px solid var(--border);">
+        <div style="font-size:3rem;">${s.icon}</div>
+        <div style="background:rgba(255,255,255,0.7);border-radius:var(--radius-full);padding:0.25rem 0.75rem;font-size:0.75rem;font-weight:600;color:var(--primary);">Screenshot Placeholder</div>
+      </div>
+      <div class="card-body" style="padding:1rem 1.25rem;">
+        <div style="font-weight:700;margin-bottom:0.25rem;">${s.label}</div>
+        <div style="font-size:0.8125rem;color:var(--text-muted);">${s.desc}</div>
+      </div>
+    </div>`).join('');
+}
+
+renderClasses();
+renderER();
+renderAPI();
+renderScreenshots();
+</script>
+</body>
+</html>

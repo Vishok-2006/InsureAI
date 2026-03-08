@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login / Register – InsurAI</title>
+  <meta name="description" content="Securely sign in or create your InsurAI account. Role-based access for Employees and Insurance Agents."/>
+  <link rel="stylesheet" href="../assets/css/main.css"/>
+</head>
+<body>
+<div class="auth-page" id="authPage">
+  <!-- LEFT PANEL -->
+  <div class="auth-left">
+    <div style="position:relative;z-index:1;width:100%;">
+      <a href="../index.html" style="display:flex;align-items:center;gap:0.625rem;color:white;font-weight:800;font-size:1.375rem;font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:3rem;text-decoration:none;">
+        <div style="width:40px;height:40px;background:rgba(255,255,255,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;border:1px solid rgba(255,255,255,0.3);">AI</div>
+        InsurAI
+      </a>
+      <h2 style="color:white;margin-bottom:1rem;font-size:2rem;">Your Insurance,<br/>Smarter Than Ever</h2>
+      <p style="color:rgba(255,255,255,0.8);line-height:1.8;font-size:1rem;margin-bottom:2.5rem;">Access the most comprehensive corporate insurance management platform. Manage policies, schedule appointments, and get instant AI assistance.</p>
+
+      <!-- Feature bullets -->
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div style="display:flex;align-items:center;gap:0.875rem;">
+          <div style="width:36px;height:36px;background:rgba(105,240,174,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;border:1px solid rgba(105,240,174,0.3);">✅</div>
+          <div>
+            <div style="color:white;font-weight:600;font-size:0.9375rem;">Role-Based Dashboards</div>
+            <div style="color:rgba(255,255,255,0.65);font-size:0.8125rem;">Separate portals for Employees, Agents, and Admins</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.875rem;">
+          <div style="width:36px;height:36px;background:rgba(105,240,174,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;border:1px solid rgba(105,240,174,0.3);">🎤</div>
+          <div>
+            <div style="color:white;font-weight:600;font-size:0.9375rem;">Voice AI Support</div>
+            <div style="color:rgba(255,255,255,0.65);font-size:0.8125rem;">Ask questions naturally, get instant AI answers</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.875rem;">
+          <div style="width:36px;height:36px;background:rgba(105,240,174,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;border:1px solid rgba(105,240,174,0.3);">🔐</div>
+          <div>
+            <div style="color:white;font-weight:600;font-size:0.9375rem;">Bank-Grade Security</div>
+            <div style="color:rgba(255,255,255,0.65);font-size:0.8125rem;">JWT authentication with end-to-end encryption</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:3rem;padding:1.25rem;background:rgba(255,255,255,0.08);border-radius:12px;border:1px solid rgba(255,255,255,0.15);">
+        <div style="display:flex;align-items:center;gap:0.875rem;">
+          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#FFD54F,#FF8A65);display:flex;align-items:center;justify-content:center;font-size:1.375rem;">👩‍💼</div>
+          <div>
+            <div style="color:white;font-weight:600;font-size:0.875rem;">"InsurAI transformed how we manage employee benefits. The AI assistant saves us hours every week!"</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:0.75rem;margin-top:0.25rem;">— Priya Sharma, HR Director, TechCorp India</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="auth-right">
+    <div class="auth-box">
+      <div class="auth-logo">
+        <div class="logo-icon">AI</div>
+        <span class="logo-text">InsurAI</span>
+      </div>
+
+      <!-- TABS -->
+      <div style="display:flex;border-bottom:2px solid var(--border);margin-bottom:1.75rem;">
+        <button class="tab-btn active" id="tab-login-btn" onclick="showAuthTab('login')">Sign In</button>
+        <button class="tab-btn" id="tab-register-btn" onclick="showAuthTab('register')">Register</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="loginForm">
+        <h3 class="auth-title">Welcome Back!</h3>
+        <p class="auth-subtitle">Enter your credentials to access your portal</p>
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label class="form-label">Email Address <span class="required">*</span></label>
+            <div class="input-group">
+              <span class="input-icon">📧</span>
+              <input class="form-control" type="email" id="loginEmail" placeholder="you@company.com" required autocomplete="email"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="display:flex;justify-content:space-between;">
+              Password <span class="required">*</span>
+              <a href="#" onclick="showAuthTab('forgot')" style="font-size:0.8rem;color:var(--primary);font-weight:600;text-decoration:none;">Forgot password?</a>
+            </label>
+            <div class="input-group">
+              <span class="input-icon">🔒</span>
+              <input class="form-control" type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password"/>
+              <span class="input-suffix" onclick="togglePassword('loginPassword')" title="Show/hide password">👁</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;">
+            <input type="checkbox" id="rememberMe" style="width:16px;height:16px;accent-color:var(--primary);">
+            <label for="rememberMe" style="font-size:0.875rem;color:var(--text-secondary);">Remember me for 30 days</label>
+          </div>
+          <button type="submit" class="btn btn-primary w-full btn-lg">Sign In →</button>
+        </form>
+        <div class="auth-divider"><span></span><label>or continue as demo</label><span></span></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.625rem;">
+          <button class="btn btn-outline btn-sm" onclick="loginAs('employee')" style="flex-direction:column;height:56px;gap:3px;">
+            <span>👤</span><span style="font-size:0.6875rem;">Employee</span>
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="loginAs('agent')" style="flex-direction:column;height:56px;gap:3px;">
+            <span>🧑‍💼</span><span style="font-size:0.6875rem;">Agent</span>
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="loginAs('admin')" style="flex-direction:column;height:56px;gap:3px;">
+            <span>⚙️</span><span style="font-size:0.6875rem;">Admin</span>
+          </button>
+        </div>
+        <p class="text-center mt-3 text-sm text-muted">Don't have an account? <a href="#" onclick="showAuthTab('register')" style="color:var(--primary);font-weight:600;">Register here</a></p>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="registerForm" style="display:none;">
+        <h3 class="auth-title">Create Account</h3>
+        <p class="auth-subtitle">Join the InsurAI platform today</p>
+
+        <!-- Role Selector -->
+        <div style="margin-bottom:1.25rem;">
+          <div class="form-label">I am a <span class="required">*</span></div>
+          <div class="role-selector">
+            <div class="role-option selected" id="role-employee" onclick="selectRole('employee')">
+              <span class="role-icon">👤</span>
+              <span class="role-label">Employee</span>
+            </div>
+            <div class="role-option" id="role-agent" onclick="selectRole('agent')">
+              <span class="role-icon">🧑‍💼</span>
+              <span class="role-label">Agent</span>
+            </div>
+          </div>
+        </div>
+
+        <form onsubmit="handleRegister(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">First Name <span class="required">*</span></label>
+              <input class="form-control" type="text" id="regFirstName" placeholder="Rahul" required/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name <span class="required">*</span></label>
+              <input class="form-control" type="text" id="regLastName" placeholder="Sharma" required/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Work Email <span class="required">*</span></label>
+            <div class="input-group">
+              <span class="input-icon">📧</span>
+              <input class="form-control" type="email" id="regEmail" placeholder="you@company.com" required/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <div class="input-group">
+              <span class="input-icon">📱</span>
+              <input class="form-control" type="tel" id="regPhone" placeholder="+91 98765 43210"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password <span class="required">*</span></label>
+            <div class="input-group">
+              <span class="input-icon">🔒</span>
+              <input class="form-control" type="password" id="regPassword" placeholder="Min. 8 characters" required minlength="8" oninput="updatePasswordStrength(this.value)"/>
+              <span class="input-suffix" onclick="togglePassword('regPassword')">👁</span>
+            </div>
+            <div id="pwStrengthBar" style="display:flex;gap:3px;margin-top:0.375rem;"></div>
+            <div id="pwStrengthLabel" class="form-hint"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm Password <span class="required">*</span></label>
+            <div class="input-group">
+              <span class="input-icon">🔒</span>
+              <input class="form-control" type="password" id="regConfirmPw" placeholder="Re-enter password" required/>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:0.625rem;margin-bottom:1.25rem;">
+            <input type="checkbox" id="terms" style="width:16px;height:16px;margin-top:2px;accent-color:var(--primary);" required>
+            <label for="terms" style="font-size:0.8125rem;color:var(--text-secondary);line-height:1.5;">I agree to the <a href="#" style="color:var(--primary);">Terms of Service</a> and <a href="#" style="color:var(--primary);">Privacy Policy</a></label>
+          </div>
+          <button type="submit" class="btn btn-primary w-full btn-lg">Create Account →</button>
+        </form>
+        <p class="text-center mt-3 text-sm text-muted">Already have an account? <a href="#" onclick="showAuthTab('login')" style="color:var(--primary);font-weight:600;">Sign in</a></p>
+      </div>
+
+      <!-- FORGOT PASSWORD -->
+      <div id="forgotForm" style="display:none;">
+        <h3 class="auth-title">Reset Password</h3>
+        <p class="auth-subtitle">Enter your email and we'll send you a reset link</p>
+        <form onsubmit="handleForgot(event)">
+          <div class="form-group">
+            <label class="form-label">Email Address <span class="required">*</span></label>
+            <div class="input-group">
+              <span class="input-icon">📧</span>
+              <input class="form-control" type="email" id="forgotEmail" placeholder="you@company.com" required/>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary w-full btn-lg">Send Reset Link</button>
+        </form>
+        <p class="text-center mt-3 text-sm text-muted">Remember your password? <a href="#" onclick="showAuthTab('login')" style="color:var(--primary);font-weight:600;">Back to Sign In</a></p>
+      </div>
+
+      <!-- EMAIL VERIFY SUCCESS -->
+      <div id="verifyMsg" style="display:none;text-align:center;padding:1rem 0;">
+        <div style="font-size:3rem;margin-bottom:1rem;">✉️</div>
+        <h3>Check Your Email</h3>
+        <p style="margin:0.75rem 0 1.5rem;">We've sent a verification link to <strong id="verifyEmail"></strong>. Click the link to activate your account.</p>
+        <button class="btn btn-primary w-full" onclick="showAuthTab('login')">Back to Sign In</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/app.js"></script>
+<script>
+let selectedRole = 'employee';
+
+function showAuthTab(tab) {
+  ['loginForm','registerForm','forgotForm','verifyMsg'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  ['tab-login-btn','tab-register-btn'].forEach(id => {
+    document.getElementById(id)?.classList.remove('active');
+  });
+  if (tab === 'login') {
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('tab-login-btn').classList.add('active');
+  } else if (tab === 'register') {
+    document.getElementById('registerForm').style.display = 'block';
+    document.getElementById('tab-register-btn').classList.add('active');
+  } else if (tab === 'forgot') {
+    document.getElementById('forgotForm').style.display = 'block';
+  } else if (tab === 'verify') {
+    document.getElementById('verifyMsg').style.display = 'block';
+  }
+}
+
+function selectRole(role) {
+  selectedRole = role;
+  document.querySelectorAll('.role-option').forEach(el => el.classList.remove('selected'));
+  document.getElementById('role-' + role)?.classList.add('selected');
+}
+
+function togglePassword(id) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+
+function updatePasswordStrength(val) {
+  const bar = document.getElementById('pwStrengthBar');
+  const label = document.getElementById('pwStrengthLabel');
+  let strength = 0;
+  if (val.length >= 8) strength++;
+  if (/[A-Z]/.test(val)) strength++;
+  if (/[0-9]/.test(val)) strength++;
+  if (/[^A-Za-z0-9]/.test(val)) strength++;
+  const colors = ['#EF5350','#FFA726','#FFEE58','#4CAF50'];
+  const labels = ['Weak','Fair','Good','Strong'];
+  bar.innerHTML = [1,2,3,4].map(i =>
+    `<div style="flex:1;height:4px;border-radius:2px;background:${i <= strength ? colors[strength-1] : '#EEEEEE'};transition:background 0.3s;"></div>`
+  ).join('');
+  label.textContent = val.length > 0 ? `Password strength: ${labels[strength-1] || 'Weak'}` : '';
+  label.style.color = colors[strength-1] || '#9E9E9E';
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  if (!email || !password) return;
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.textContent = 'Signing in...'; btn.disabled = true;
+  setTimeout(() => {
+    // Demo routing based on email prefix
+    const lc = email.toLowerCase();
+    if (lc.includes('admin')) window.location.href = 'admin-dashboard.html';
+    else if (lc.includes('agent')) window.location.href = 'agent-dashboard.html';
+    else window.location.href = 'employee-dashboard.html';
+  }, 1200);
+}
+
+function loginAs(role) {
+  const urls = { employee: 'employee-dashboard.html', agent: 'agent-dashboard.html', admin: 'admin-dashboard.html' };
+  window.location.href = urls[role];
+}
+
+function handleRegister(e) {
+  e.preventDefault();
+  const pw = document.getElementById('regPassword').value;
+  const cpw = document.getElementById('regConfirmPw').value;
+  if (pw !== cpw) { InsurAI.showToast('Passwords do not match', '', 'error'); return; }
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.textContent = 'Creating account...'; btn.disabled = true;
+  setTimeout(() => {
+    document.getElementById('verifyEmail').textContent = document.getElementById('regEmail').value;
+    showAuthTab('verify');
+  }, 1500);
+}
+
+function handleForgot(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.textContent = 'Sending...'; btn.disabled = true;
+  setTimeout(() => { InsurAI.showToast('Reset link sent!', 'Check your inbox.', 'success'); btn.textContent = 'Send Reset Link'; btn.disabled = false; }, 1400);
+}
+
+// Check hash for register tab
+if (window.location.hash === '#register') showAuthTab('register');
+</script>
+</body>
+</html>

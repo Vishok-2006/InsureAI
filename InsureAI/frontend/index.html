@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>InsurAI – AI-Powered Corporate Insurance Management System</title>
+  <meta name="description" content="InsurAI is the leading AI-powered corporate insurance automation and intelligence platform. Manage employee policies, book appointments, and handle queries with voice AI."/>
+  <meta name="keywords" content="corporate insurance, AI insurance, employee benefits, insurance management, InsurAI"/>
+  <link rel="stylesheet" href="assets/css/main.css"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>"/>
+</head>
+<body>
+
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="index.html">
+      <div class="navbar-logo-icon">AI</div>
+      Insur<span class="brand-dot">AI</span>
+    </a>
+    <div class="navbar-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="pages/plans.html">Plans</a>
+      <a href="#features">Features</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="navbar-actions">
+      <a href="pages/auth.html" class="btn btn-outline btn-sm">Login</a>
+      <a href="pages/auth.html#register" class="btn btn-primary btn-sm">Register</a>
+      <button class="hamburger" onclick="InsurAI.toggleMobileMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="pages/plans.html">Plans</a>
+  <a href="#features">Features</a>
+  <a href="#about">About</a>
+  <a href="pages/auth.html">Login / Register</a>
+</div>
+
+<!-- ═══════════════ HERO SECTION ═══════════════ -->
+<section class="hero" id="home">
+  <div class="container" style="width:100%;">
+    <div style="display:grid; grid-template-columns:1fr auto; align-items:center; gap:3rem;">
+      <div class="hero-content animate-fade">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Now with Voice AI Assistant
+        </div>
+        <h1>
+          AI-Powered<br/>
+          <span>Corporate Insurance</span><br/>
+          Management
+        </h1>
+        <p>
+          Streamline employee insurance operations with intelligent automation.
+          Manage policies, schedule appointments, handle queries with voice AI,
+          and gain complete visibility through a unified dashboard.
+        </p>
+        <div class="hero-actions">
+          <a href="pages/auth.html#register" class="btn btn-white btn-lg">
+            🚀 Get Started Free
+          </a>
+          <a href="pages/auth.html" class="btn btn-outline-white btn-lg">
+            Sign In
+          </a>
+        </div>
+
+        <div class="hero-stats-row">
+          <div class="hero-stat">
+            <div class="hero-stat-num">10K+</div>
+            <div class="hero-stat-label">Employees Covered</div>
+          </div>
+          <div class="hero-divider"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">500+</div>
+            <div class="hero-stat-label">Corporate Clients</div>
+          </div>
+          <div class="hero-divider"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">98%</div>
+            <div class="hero-stat-label">Satisfaction Rate</div>
+          </div>
+          <div class="hero-divider"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">24/7</div>
+            <div class="hero-stat-label">AI Support</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Dashboard Preview -->
+      <div style="display:none; flex-direction:column; gap:1rem; min-width:340px;" id="heroVisual">
+        <div class="hero-card-float" style="animation: floatUp 3s ease-in-out infinite;">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+            <div style="width:36px;height:36px;background:rgba(255,255,255,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.125rem;">📋</div>
+            <div>
+              <div style="font-weight:700;font-size:0.9375rem;">Policy Overview</div>
+              <div style="font-size:0.75rem;opacity:0.7;">Live Dashboard</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+            <div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:0.75rem;text-align:center;">
+              <div style="font-size:1.5rem;font-weight:800;">247</div>
+              <div style="font-size:0.6875rem;opacity:0.7;">Active Plans</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:0.75rem;text-align:center;">
+              <div style="font-size:1.5rem;font-weight:800;">18</div>
+              <div style="font-size:0.6875rem;opacity:0.7;">Appt Today</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-card-float" style="animation: floatUp 3s ease-in-out infinite 1.5s;">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:36px;height:36px;background:rgba(105,240,174,0.25);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.125rem;">🎤</div>
+            <div>
+              <div style="font-weight:600;font-size:0.875rem;">Voice AI Active</div>
+              <div style="font-size:0.75rem;opacity:0.7;">"What's my coverage limit?"</div>
+            </div>
+          </div>
+          <div style="margin-top:0.75rem;display:flex;gap:3px;align-items:center;height:24px;">
+            <div style="width:3px;background:rgba(255,255,255,0.5);border-radius:2px;height:6px;animation:waveAnim 1.2s ease-in-out infinite 0s;"></div>
+            <div style="width:3px;background:rgba(255,255,255,0.5);border-radius:2px;height:16px;animation:waveAnim 1.2s ease-in-out infinite 0.1s;"></div>
+            <div style="width:3px;background:#69F0AE;border-radius:2px;height:24px;animation:waveAnim 1.2s ease-in-out infinite 0.2s;"></div>
+            <div style="width:3px;background:#69F0AE;border-radius:2px;height:18px;animation:waveAnim 1.2s ease-in-out infinite 0.3s;"></div>
+            <div style="width:3px;background:rgba(255,255,255,0.5);border-radius:2px;height:12px;animation:waveAnim 1.2s ease-in-out infinite 0.4s;"></div>
+            <div style="width:3px;background:rgba(255,255,255,0.5);border-radius:2px;height:20px;animation:waveAnim 1.2s ease-in-out infinite 0.5s;"></div>
+            <div style="width:3px;background:#69F0AE;border-radius:2px;height:10px;animation:waveAnim 1.2s ease-in-out infinite 0.6s;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TRUST BANNER ═══════════════ -->
+<div style="background:white;border-bottom:1px solid var(--border);padding:1.25rem 0;">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap;">
+      <div style="font-size:0.8125rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Trusted by leading corporates</div>
+      <div style="display:flex;align-items:center;gap:2.5rem;flex-wrap:wrap;opacity:0.6;">
+        <div style="font-size:1.125rem;font-weight:800;color:var(--grey-700);font-family:'Plus Jakarta Sans',sans-serif;">TechCorp</div>
+        <div style="font-size:1.125rem;font-weight:800;color:var(--grey-700);font-family:'Plus Jakarta Sans',sans-serif;">GlobalBiz</div>
+        <div style="font-size:1.125rem;font-weight:800;color:var(--grey-700);font-family:'Plus Jakarta Sans',sans-serif;">InnoTech</div>
+        <div style="font-size:1.125rem;font-weight:800;color:var(--grey-700);font-family:'Plus Jakarta Sans',sans-serif;">FinEdge</div>
+        <div style="font-size:1.125rem;font-weight:800;color:var(--grey-700);font-family:'Plus Jakarta Sans',sans-serif;">DataSys</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FEATURES SECTION ═══════════════ -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="text-center mb-4">
+      <div class="section-label" style="justify-content:center;">Platform Features</div>
+      <h2 class="section-title">Everything Your Team Needs</h2>
+      <p class="section-desc" style="margin:0 auto;">A comprehensive suite of tools designed to simplify corporate insurance management for employees, agents, and administrators.</p>
+    </div>
+    <div class="grid-3" style="margin-top:3rem;">
+      <div class="feature-card" data-aos>
+        <div class="feature-icon">🔐</div>
+        <h4>Secure Authentication</h4>
+        <p>Role-based JWT authentication with email verification. Separate portals for Employees, Agents, and Admins with granular access control.</p>
+      </div>
+      <div class="feature-card" data-aos data-delay="100">
+        <div class="feature-icon">🎤</div>
+        <h4>Voice AI Assistant</h4>
+        <p>Ask questions about your coverage, deductibles, and claims using natural voice commands. AI-powered responses available 24/7.</p>
+      </div>
+      <div class="feature-card" data-aos data-delay="200">
+        <div class="feature-icon">📅</div>
+        <h4>Appointment Scheduling</h4>
+        <p>Book meetings with insurance agents in real time. Smart conflict detection ensures no double-bookings. Automated reminders sent via email.</p>
+      </div>
+      <div class="feature-card" data-aos data-delay="300">
+        <div class="feature-icon">👥</div>
+        <h4>Agent Management</h4>
+        <p>Agents can set availability, manage bookings, accept or reject appointments, and track their assigned customer portfolio.</p>
+      </div>
+      <div class="feature-card" data-aos data-delay="400">
+        <div class="feature-icon">📋</div>
+        <h4>Plan Management</h4>
+        <p>Browse and compare corporate insurance plans. View coverage details, premium costs, eligibility criteria, and activate/upgrade plans.</p>
+      </div>
+      <div class="feature-card" data-aos data-delay="500">
+        <div class="feature-icon">🔔</div>
+        <h4>Smart Notifications</h4>
+        <p>Receive timely email and SMS alerts for appointment confirmations, cancellations, plan renewals, and policy updates.</p>
+      </div>
+      <div class="feature-card" data-aos data-delay="600">
+        <div class="feature-icon">📊</div>
+        <h4>Admin Dashboard</h4>
+        <p>Full visibility into users, agents, appointments, and plans. Rich analytics with charts, export capabilities, and audit logs.</p>
+      </div>
+      <div class="feature-card" data-aos data-delay="700">
+        <div class="feature-icon">🛡️</div>
+        <h4>Conflict Prevention</h4>
+        <p>Intelligent scheduling engine prevents appointment overlaps, ensures agent availability, and manages booking capacity automatically.</p>
+      </div>
+      <div class="feature-card" data-aos data-delay="800">
+        <div class="feature-icon">🔍</div>
+        <h4>Search & Filter</h4>
+        <p>Powerful search and filter functionality across all records — appointments, employees, plans, and agents — with real-time results.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+<section class="section" style="background:linear-gradient(135deg,#EBF5FB,#E3F2FD);" id="about">
+  <div class="container">
+    <div class="text-center mb-4">
+      <div class="section-label" style="justify-content:center;">How It Works</div>
+      <h2>Simple. Smart. Seamless.</h2>
+      <p class="section-desc" style="margin:0 auto;">Get up and running in minutes with our three-step onboarding process.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:2.5rem;position:relative;" id="howItWorksGrid">
+      <div class="card" style="text-align:center;" data-aos>
+        <div class="card-body">
+          <div style="width:56px;height:56px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:1.25rem;font-weight:800;margin:0 auto 1.25rem;box-shadow:var(--shadow-blue);">1</div>
+          <h4>Register & Verify</h4>
+          <p style="font-size:0.9rem;">Create your account, choose your role (Employee / Agent), and verify your email to activate the portal.</p>
+        </div>
+      </div>
+      <div class="card" style="text-align:center;" data-aos data-delay="150">
+        <div class="card-body">
+          <div style="width:56px;height:56px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:1.25rem;font-weight:800;margin:0 auto 1.25rem;box-shadow:var(--shadow-blue);">2</div>
+          <h4>Explore & Assign Plans</h4>
+          <p style="font-size:0.9rem;">Browse available corporate insurance plans. Admins assign plans to employees; employees can view and request upgrades.</p>
+        </div>
+      </div>
+      <div class="card" style="text-align:center;" data-aos data-delay="300">
+        <div class="card-body">
+          <div style="width:56px;height:56px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:1.25rem;font-weight:800;margin:0 auto 1.25rem;box-shadow:var(--shadow-blue);">3</div>
+          <h4>Manage & Automate</h4>
+          <p style="font-size:0.9rem;">Book agent appointments, use our Voice AI for instant answers, and receive automated notifications for every update.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ STATS SECTION ═══════════════ -->
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;" id="statsGrid">
+      <div class="stat-card" data-aos style="flex-direction:column;text-align:center;justify-content:center;">
+        <div style="font-size:2.25rem;">🏢</div>
+        <div class="stat-value mt-2">500+</div>
+        <div class="stat-label">Corporate Clients</div>
+      </div>
+      <div class="stat-card" data-aos data-delay="100" style="flex-direction:column;text-align:center;justify-content:center;">
+        <div style="font-size:2.25rem;">👥</div>
+        <div class="stat-value mt-2">10,000+</div>
+        <div class="stat-label">Employees Insured</div>
+      </div>
+      <div class="stat-card" data-aos data-delay="200" style="flex-direction:column;text-align:center;justify-content:center;">
+        <div style="font-size:2.25rem;">📅</div>
+        <div class="stat-value mt-2">25,000+</div>
+        <div class="stat-label">Appointments Booked</div>
+      </div>
+      <div class="stat-card" data-aos data-delay="300" style="flex-direction:column;text-align:center;justify-content:center;">
+        <div style="font-size:2.25rem;">🎤</div>
+        <div class="stat-value mt-2">1M+</div>
+        <div class="stat-label">AI Queries Resolved</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PRICING TEASER ═══════════════ -->
+<section class="section" style="background:var(--grey-100);">
+  <div class="container">
+    <div class="text-center mb-4">
+      <div class="section-label" style="justify-content:center;">Insurance Plans</div>
+      <h2>Comprehensive Coverage Tiers</h2>
+      <p class="section-desc" style="margin:0 auto;">Flexible plans designed for teams of every size. All plans include AI assistant support.</p>
+    </div>
+    <div class="grid-3" style="margin-top:2.5rem;">
+      <div class="plan-card" data-aos>
+        <div class="plan-header">
+          <div class="plan-name">Basic Plan</div>
+          <div style="font-size:0.9rem;color:var(--text-muted);">For small teams</div>
+          <div class="plan-price">
+            <span class="amount">₹2,499</span>
+            <span class="period">/employee/mo</span>
+          </div>
+        </div>
+        <div class="plan-body">
+          <ul class="plan-features">
+            <li>Medical coverage up to ₹3L</li>
+            <li>Accidental coverage ₹5L</li>
+            <li>Outpatient consultations</li>
+            <li>24/7 AI voice support</li>
+            <li>Online appointment booking</li>
+          </ul>
+          <a href="pages/plans.html" class="btn btn-outline w-full">View Details</a>
+        </div>
+      </div>
+      <div class="plan-card featured" data-aos data-delay="150">
+        <div class="plan-badge-featured">Most Popular</div>
+        <div class="plan-header featured-bg">
+          <div class="plan-name">Premium Plan</div>
+          <div style="font-size:0.9rem;opacity:0.8;">For mid-size teams</div>
+          <div class="plan-price">
+            <span class="amount">₹4,999</span>
+            <span class="period">/employee/mo</span>
+          </div>
+        </div>
+        <div class="plan-body">
+          <ul class="plan-features">
+            <li>Medical coverage up to ₹7L</li>
+            <li>Accidental coverage ₹15L</li>
+            <li>Dental & Vision included</li>
+            <li>Family floater option</li>
+            <li>Priority agent support</li>
+            <li>Claims assistance</li>
+          </ul>
+          <a href="pages/plans.html" class="btn btn-primary w-full">View Details</a>
+        </div>
+      </div>
+      <div class="plan-card" data-aos data-delay="300">
+        <div class="plan-header">
+          <div class="plan-name">Enterprise Plan</div>
+          <div style="font-size:0.9rem;color:var(--text-muted);">For large enterprises</div>
+          <div class="plan-price">
+            <span class="amount">₹8,999</span>
+            <span class="period">/employee/mo</span>
+          </div>
+        </div>
+        <div class="plan-body">
+          <ul class="plan-features">
+            <li>Medical coverage up to ₹20L</li>
+            <li>Accidental coverage ₹50L</li>
+            <li>Full family coverage</li>
+            <li>International coverage</li>
+            <li>Dedicated account manager</li>
+            <li>Custom policy options</li>
+          </ul>
+          <a href="pages/plans.html" class="btn btn-outline w-full">View Details</a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="pages/plans.html" class="btn btn-primary btn-lg">Explore All Plans →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CTA SECTION ═══════════════ -->
+<section class="section" style="background:linear-gradient(135deg,#0D47A1,#1565C0,#006064);" id="contact">
+  <div class="container">
+    <div class="text-center" style="max-width:700px;margin:0 auto;">
+      <h2 style="color:white;margin-bottom:1rem;">Ready to Transform Your Corporate Insurance?</h2>
+      <p style="color:rgba(255,255,255,0.8);font-size:1.0625rem;margin-bottom:2rem;line-height:1.8;">
+        Join 500+ companies already using InsurAI to manage employee insurance smarter. 
+        Start your free trial today — no credit card required.
+      </p>
+      <div class="hero-actions" style="justify-content:center;">
+        <a href="pages/auth.html#register" class="btn btn-white btn-lg">🚀 Start Free Trial</a>
+        <a href="pages/auth.html" class="btn btn-outline-white btn-lg">Sign In</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon">AI</div>
+          InsurAI
+        </div>
+        <p>AI-Powered Corporate Insurance Automation & Intelligence System. Built for modern enterprises managing employee wellness and insurance at scale.</p>
+        <div style="display:flex;gap:0.625rem;margin-top:1.25rem;">
+          <div style="padding:0.5rem;background:rgba(255,255,255,0.08);border-radius:6px;cursor:pointer;">🐦</div>
+          <div style="padding:0.5rem;background:rgba(255,255,255,0.08);border-radius:6px;cursor:pointer;">💼</div>
+          <div style="padding:0.5rem;background:rgba(255,255,255,0.08);border-radius:6px;cursor:pointer;">📘</div>
+        </div>
+      </div>
+      <div>
+        <h5>Platform</h5>
+        <ul>
+          <li><a href="pages/auth.html">Employee Portal</a></li>
+          <li><a href="pages/auth.html">Agent Portal</a></li>
+          <li><a href="pages/auth.html">Admin Dashboard</a></li>
+          <li><a href="pages/plans.html">Insurance Plans</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Features</h5>
+        <ul>
+          <li><a href="#">Voice AI Assistant</a></li>
+          <li><a href="#">Appointment Booking</a></li>
+          <li><a href="#">Notification System</a></li>
+          <li><a href="#">Analytics & Reports</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Project Info</h5>
+        <ul>
+          <li><a href="#">About InsurAI</a></li>
+          <li><a href="#">API Documentation</a></li>
+          <li><a href="pages/class-diagram.html">Class Diagram</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 InsurAI – Corporate Insurance Automation & Intelligence System. All rights reserved.</p>
+      <div class="footer-tags">
+        <span class="footer-tag">React Frontend</span>
+        <span class="footer-tag">Spring Boot API</span>
+        <span class="footer-tag">MySQL</span>
+        <span class="footer-tag">JWT Auth</span>
+        <span class="footer-tag">Voice AI</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script>
+  // Show hero visual on larger screens
+  if (window.innerWidth >= 1024) {
+    document.getElementById('heroVisual').style.display = 'flex';
+  }
+  // Responsive stats grid
+  if (window.innerWidth <= 768) {
+    document.getElementById('statsGrid').style.gridTemplateColumns = 'repeat(2,1fr)';
+    document.getElementById('howItWorksGrid').style.gridTemplateColumns = '1fr';
+  }
+</script>
+</body>
+</html>

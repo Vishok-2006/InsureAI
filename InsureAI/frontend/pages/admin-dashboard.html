@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard – InsurAI</title>
+  <meta name="description" content="InsurAI Admin Portal – Manage users, agents, plans, appointments, and analytics."/>
+  <link rel="stylesheet" href="../assets/css/main.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="../index.html">
+      <div class="navbar-logo-icon">AI</div>
+      Insur<span class="brand-dot">AI</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.875rem;color:var(--text-secondary);">
+        <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4A148C,#7B1FA2);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.75rem;">SA</div>
+        Super Admin
+      </div>
+      <span class="badge badge-danger">Admin</span>
+      <a href="auth.html" class="btn btn-outline btn-sm">Sign Out</a>
+      <button class="hamburger" onclick="InsurAI.toggleSidebar()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="dashboard-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" style="background:linear-gradient(135deg,#4A148C,#7B1FA2);">SA</div>
+        <div class="sidebar-user-info">
+          <div class="name">Super Admin</div>
+          <div class="role">System Administrator</div>
+        </div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Overview</div>
+      <div class="sidebar-link active" id="nav-admindash" onclick="showSection('admindash',this)"><span class="icon">📊</span> Analytics</div>
+      <div class="sidebar-section-label">Management</div>
+      <div class="sidebar-link" id="nav-users" onclick="showSection('users',this)"><span class="icon">👥</span> User Management</div>
+      <div class="sidebar-link" id="nav-agents" onclick="showSection('agents',this)"><span class="icon">🧑‍💼</span> Agent Management</div>
+      <div class="sidebar-link" id="nav-adminplans" onclick="showSection('adminplans',this)"><span class="icon">📋</span> Plan Management</div>
+      <div class="sidebar-link" id="nav-allappts" onclick="showSection('allappts',this)"><span class="icon">📅</span> All Appointments <span class="badge-count">7</span></div>
+      <div class="sidebar-section-label">Communications</div>
+      <div class="sidebar-link" id="nav-adminnotif" onclick="showSection('adminnotif',this)"><span class="icon">🔔</span> Notifications</div>
+      <div class="sidebar-section-label">System</div>
+      <div class="sidebar-link" id="nav-settings" onclick="showSection('settings',this)"><span class="icon">⚙️</span> Settings</div>
+      <div class="sidebar-link" onclick="window.location.href='auth.html'"><span class="icon">🚪</span> Sign Out</div>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- ─── ANALYTICS DASHBOARD ─── -->
+    <section id="sec-admindash">
+      <div class="page-header">
+        <h2>📊 Admin Analytics Dashboard</h2>
+        <p>Real-time overview of the entire InsurAI platform.</p>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="grid-4 mb-4">
+        <div class="stat-card"><div class="stat-icon blue">👥</div><div><div class="stat-value">1,247</div><div class="stat-label">Total Employees</div><div class="stat-change up">↑ +42 this month</div></div></div>
+        <div class="stat-card"><div class="stat-icon cyan">🧑‍💼</div><div><div class="stat-value">38</div><div class="stat-label">Active Agents</div><div class="stat-change up">↑ +3 this month</div></div></div>
+        <div class="stat-card"><div class="stat-icon green">📅</div><div><div class="stat-value">284</div><div class="stat-label">Appointments (MTD)</div><div class="stat-change up">↑ 18% vs last month</div></div></div>
+        <div class="stat-card"><div class="stat-icon orange">📋</div><div><div class="stat-value">8</div><div class="stat-label">Active Plans</div><div class="stat-change up">↑ 2 new plans</div></div></div>
+      </div>
+
+      <div class="grid-2 mb-4">
+        <!-- Booking Chart -->
+        <div class="card">
+          <div class="card-header"><h4>📈 Monthly Appointment Trend</h4><span class="badge badge-primary">2025-26</span></div>
+          <div class="card-body">
+            <div id="adminBookingChart"></div>
+            <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;">
+              <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;"><div style="width:12px;height:12px;background:var(--primary);border-radius:3px;"></div><span>Booked</span></div>
+              <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;"><div style="width:12px;height:12px;background:var(--success-light);border-radius:3px;"></div><span>Completed</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Plan Distribution -->
+        <div class="card">
+          <div class="card-header"><h4>🍩 Plan Distribution</h4></div>
+          <div class="card-body">
+            <div id="adminPlanDonut"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Recent Appointments -->
+        <div class="card">
+          <div class="card-header"><h4>📅 Recent Appointments</h4><button class="btn btn-outline btn-sm" onclick="showSection('allappts',document.getElementById('nav-allappts'))">View All</button></div>
+          <div class="card-body" style="padding:0;">
+            <table style="width:100%;">
+              <thead><tr><th>Employee</th><th>Agent</th><th>Date</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Ravi Kumar</td><td>A. Singh</td><td>Mar 9</td><td><span class="badge badge-success badge-dot">Confirmed</span></td></tr>
+                <tr><td>Meena Patel</td><td>A. Singh</td><td>Mar 9</td><td><span class="badge badge-success badge-dot">Confirmed</span></td></tr>
+                <tr><td>Arjun Joshi</td><td>R. Mehta</td><td>Mar 10</td><td><span class="badge badge-warning badge-dot">Pending</span></td></tr>
+                <tr><td>Nisha Gupta</td><td>P. Nair</td><td>Mar 11</td><td><span class="badge badge-info badge-dot">Rescheduled</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- System Alerts -->
+        <div class="card">
+          <div class="card-header"><h4>⚠️ System Alerts</h4></div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:0.75rem;">
+            <div style="padding:0.875rem;background:#FFF3E0;border-radius:var(--radius-md);border:1px solid #FFE0B2;display:flex;gap:0.75rem;">
+              <span>⚠️</span>
+              <div><div style="font-weight:700;font-size:0.875rem;color:#E65100;">6 Plans Expiring</div><div style="font-size:0.8125rem;color:#78350F;">6 employees have plans expiring within 30 days.</div></div>
+            </div>
+            <div style="padding:0.875rem;background:#E8F5E9;border-radius:var(--radius-md);border:1px solid #C8E6C9;display:flex;gap:0.75rem;">
+              <span>✅</span>
+              <div><div style="font-weight:700;font-size:0.875rem;color:#2E7D32;">System Healthy</div><div style="font-size:0.8125rem;color:#1B5E20;">All services running normally. Uptime: 99.97%</div></div>
+            </div>
+            <div style="padding:0.875rem;background:var(--primary-50);border-radius:var(--radius-md);border:1px solid var(--primary-100);display:flex;gap:0.75rem;">
+              <span>ℹ️</span>
+              <div><div style="font-weight:700;font-size:0.875rem;color:var(--primary);">New Agent Applications</div><div style="font-size:0.8125rem;color:var(--primary-dark);">3 new agent applications pending review.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── USER MANAGEMENT ─── -->
+    <section id="sec-users" style="display:none;">
+      <div class="page-header">
+        <h2>👥 User Management</h2>
+        <p>Add, edit, and manage all employees and their accounts.</p>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+        <div class="search-bar"><span>🔍</span><input type="text" placeholder="Search by name, email, or department..."/></div>
+        <div style="display:flex;gap:0.75rem;">
+          <div class="filter-bar">
+            <div class="filter-chip active">All</div>
+            <div class="filter-chip">Active</div>
+            <div class="filter-chip">Inactive</div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="InsurAI.openModal('addUserModal')">+ Add User</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Department</th><th>Plan</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="userTable"></tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+          <span style="font-size:0.875rem;color:var(--text-muted);">Showing 10 of 1,247 users</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── AGENT MANAGEMENT ─── -->
+    <section id="sec-agents" style="display:none;">
+      <div class="page-header">
+        <h2>🧑‍💼 Agent Management</h2>
+        <p>Manage insurance agents, verify credentials, and track performance.</p>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+        <div class="search-bar"><span>🔍</span><input type="text" placeholder="Search agents..."/></div>
+        <button class="btn btn-primary btn-sm" onclick="InsurAI.openModal('addAgentModal')">+ Add Agent</button>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Agent</th><th>Company</th><th>Specialization</th><th>Clients</th><th>Rating</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="agentTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PLAN MANAGEMENT ─── -->
+    <section id="sec-adminplans" style="display:none;">
+      <div class="page-header">
+        <h2>📋 Plan Management</h2>
+        <p>Create, edit, and manage all available corporate insurance plans.</p>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:1.5rem;">
+        <button class="btn btn-primary" onclick="InsurAI.openModal('addPlanModal')">+ Create New Plan</button>
+      </div>
+      <div class="grid-3" id="adminPlanGrid"></div>
+    </section>
+
+    <!-- ─── ALL APPOINTMENTS ─── -->
+    <section id="sec-allappts" style="display:none;">
+      <div class="page-header">
+        <h2>📅 All Appointments</h2>
+        <p>View, filter, and manage all appointments across the platform.</p>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+        <div class="search-bar"><span>🔍</span><input type="text" placeholder="Search appointments..."/></div>
+        <div class="filter-bar">
+          <div class="filter-chip active">All</div>
+          <div class="filter-chip">Pending</div>
+          <div class="filter-chip">Confirmed</div>
+          <div class="filter-chip">Completed</div>
+          <div class="filter-chip">Cancelled</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Employee</th><th>Agent</th><th>Date & Time</th><th>Reason</th><th>Mode</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="allApptsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── NOTIFICATIONS MANAGER ─── -->
+    <section id="sec-adminnotif" style="display:none;">
+      <div class="page-header">
+        <h2>🔔 Notification Manager</h2>
+        <p>Send bulk email/SMS notifications and view notification history.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h4>📧 Send Notification</h4></div>
+          <div class="card-body">
+            <div class="form-group"><label class="form-label">Recipients</label>
+              <select class="form-control"><option>All Employees</option><option>Specific Department</option><option>Employees with Expiring Plans</option><option>All Agents</option><option>Individual User</option></select>
+            </div>
+            <div class="form-group"><label class="form-label">Channel</label>
+              <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--primary);"> 📧 Email</label>
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> 📱 SMS</label>
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> 🔔 In-App</label>
+              </div>
+            </div>
+            <div class="form-group"><label class="form-label">Template</label>
+              <select class="form-control" onchange="loadTemplate(this.value)">
+                <option value="">Custom message</option>
+                <option value="renewal">Plan Renewal Reminder</option>
+                <option value="appt">Appointment Confirmation</option>
+                <option value="cancel">Appointment Cancellation</option>
+                <option value="welcome">Welcome Message</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Subject</label><input class="form-control" id="notifSubject" placeholder="Notification subject..."/></div>
+            <div class="form-group"><label class="form-label">Message</label><textarea class="form-control" id="notifMessage" rows="5" placeholder="Type your notification message..."></textarea></div>
+            <div class="form-group"><label class="form-label">Schedule</label>
+              <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;"><input type="radio" name="schedType" value="now" checked style="accent-color:var(--primary);"> Send Now</label>
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;"><input type="radio" name="schedType" value="later" style="accent-color:var(--primary);"> Schedule for Later</label>
+              </div>
+            </div>
+            <button class="btn btn-primary w-full" onclick="InsurAI.showToast('Notification Sent!','Delivered to all selected recipients.','success')">🚀 Send Notification</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h4>📨 Recent Sent Notifications</h4></div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:0.75rem;">
+            <div class="notif-item">
+              <div class="notif-icon blue">📧</div>
+              <div class="notif-content">
+                <div class="title">Plan Renewal Reminder</div>
+                <div class="desc">Sent to 42 employees with plans expiring next month</div>
+                <div class="time">Today, 9:00 AM · Email + SMS</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon green">📧</div>
+              <div class="notif-content">
+                <div class="title">Appointment Confirmation Batch</div>
+                <div class="desc">Sent to 18 employees and 6 agents</div>
+                <div class="time">Yesterday, 3:45 PM · Email</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon orange">📧</div>
+              <div class="notif-content">
+                <div class="title">New Plan Announcement</div>
+                <div class="desc">Enterprise International Plan launch – sent to all 1,247 employees</div>
+                <div class="time">Mar 5, 2026 · Email + In-App</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon blue">📧</div>
+              <div class="notif-content">
+                <div class="title">System Maintenance Notice</div>
+                <div class="desc">Scheduled maintenance on Mar 7, 12–2 AM – all users notified</div>
+                <div class="time">Mar 4, 2026 · Email + SMS</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SETTINGS ─── -->
+    <section id="sec-settings" style="display:none;">
+      <div class="page-header"><h2>⚙️ System Settings</h2><p>Configure platform-wide settings and integrations.</p></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h4>General Settings</h4></div>
+          <div class="card-body">
+            <div class="form-group"><label class="form-label">Platform Name</label><input class="form-control" value="InsurAI Corporate Platform"/></div>
+            <div class="form-group"><label class="form-label">Admin Email</label><input class="form-control" type="email" value="admin@insurai.com"/></div>
+            <div class="form-group"><label class="form-label">Timezone</label><select class="form-control"><option>Asia/Kolkata (IST)</option><option>UTC</option><option>US/Eastern</option></select></div>
+            <div class="form-group"><label class="form-label">Language</label><select class="form-control"><option>English</option><option>Hindi</option><option>Tamil</option></select></div>
+            <button class="btn btn-primary" onclick="InsurAI.showToast('Settings saved!','','success')">Save Changes</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h4>Integrations</h4></div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:1rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem;border:1px solid var(--border);border-radius:var(--radius-md);">
+              <div><div style="font-weight:700;">📧 Email (SMTP)</div><div style="font-size:0.8125rem;color:var(--text-muted);">smtp.gmail.com · Configured</div></div>
+              <span class="badge badge-success badge-dot">Active</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem;border:1px solid var(--border);border-radius:var(--radius-md);">
+              <div><div style="font-weight:700;">📱 SMS (Twilio)</div><div style="font-size:0.8125rem;color:var(--text-muted);">API Configured · India</div></div>
+              <span class="badge badge-success badge-dot">Active</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem;border:1px solid var(--border);border-radius:var(--radius-md);">
+              <div><div style="font-weight:700;">🤖 AI Voice API</div><div style="font-size:0.8125rem;color:var(--text-muted);">OpenAI Whisper · Connected</div></div>
+              <span class="badge badge-success badge-dot">Active</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem;border:1px solid var(--border);border-radius:var(--radius-md);">
+              <div><div style="font-weight:700;">💾 Database (MySQL)</div><div style="font-size:0.8125rem;color:var(--text-muted);">localhost:3306 · insurai_db</div></div>
+              <span class="badge badge-success badge-dot">Connected</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal-overlay" id="addUserModal">
+  <div class="modal">
+    <div class="modal-header"><h4>Add New User</h4><button class="modal-close" onclick="InsurAI.closeModal('addUserModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">First Name <span class="required">*</span></label><input class="form-control" placeholder="First name"/></div>
+        <div class="form-group"><label class="form-label">Last Name <span class="required">*</span></label><input class="form-control" placeholder="Last name"/></div>
+      </div>
+      <div class="form-group"><label class="form-label">Email <span class="required">*</span></label><input class="form-control" type="email" placeholder="employee@company.com"/></div>
+      <div class="form-group"><label class="form-label">Department <span class="required">*</span></label><select class="form-control"><option>IT</option><option>Finance</option><option>HR</option><option>Operations</option><option>Marketing</option><option>Legal</option><option>R&D</option></select></div>
+      <div class="form-group"><label class="form-label">Assign Plan</label><select class="form-control"><option>Basic Health Plan</option><option>Premium Health Plan</option><option>Enterprise Plan</option></select></div>
+      <div class="form-group"><label class="form-label">Employee ID</label><input class="form-control" placeholder="Auto-generated if blank"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="InsurAI.closeModal('addUserModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="InsurAI.closeModal('addUserModal');InsurAI.showToast('User Added!','Account created and welcome email sent.','success')">Create User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Agent Modal -->
+<div class="modal-overlay" id="addAgentModal">
+  <div class="modal">
+    <div class="modal-header"><h4>Add New Agent</h4><button class="modal-close" onclick="InsurAI.closeModal('addAgentModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">First Name <span class="required">*</span></label><input class="form-control" placeholder="First name"/></div>
+        <div class="form-group"><label class="form-label">Last Name <span class="required">*</span></label><input class="form-control" placeholder="Last name"/></div>
+      </div>
+      <div class="form-group"><label class="form-label">Email <span class="required">*</span></label><input class="form-control" type="email" placeholder="agent@company.com"/></div>
+      <div class="form-group"><label class="form-label">Insurance Company</label><input class="form-control" placeholder="LIC Corp, MaxLife, etc."/></div>
+      <div class="form-group"><label class="form-label">License Number</label><input class="form-control" placeholder="LIC-XXXX-AGT-XXXXX"/></div>
+      <div class="form-group"><label class="form-label">Specialization</label><select class="form-control"><option>Health Insurance</option><option>Life Insurance</option><option>Corporate Group Plans</option><option>Accidental Coverage</option></select></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="InsurAI.closeModal('addAgentModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="InsurAI.closeModal('addAgentModal');InsurAI.showToast('Agent Added!','Agent account created successfully.','success')">Add Agent</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Plan Modal -->
+<div class="modal-overlay" id="addPlanModal">
+  <div class="modal">
+    <div class="modal-header"><h4>Create New Insurance Plan</h4><button class="modal-close" onclick="InsurAI.closeModal('addPlanModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Plan Name <span class="required">*</span></label><input class="form-control" placeholder="e.g. Premium Corporate Plan"/></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Premium (₹/mo)</label><input class="form-control" type="number" placeholder="4999"/></div>
+        <div class="form-group"><label class="form-label">Coverage Amount (₹)</label><input class="form-control" type="number" placeholder="700000"/></div>
+      </div>
+      <div class="form-group"><label class="form-label">Category</label><select class="form-control"><option>Health Insurance</option><option>Life Insurance</option><option>Accidental</option><option>Group</option></select></div>
+      <div class="form-group"><label class="form-label">Eligibility</label><textarea class="form-control" rows="2" placeholder="e.g. All full-time employees above 18 years"></textarea></div>
+      <div class="form-group"><label class="form-label">Features (one per line)</label><textarea class="form-control" rows="4" placeholder="In-patient hospitalization&#10;Outpatient consultations&#10;Dental coverage..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="InsurAI.closeModal('addPlanModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="InsurAI.closeModal('addPlanModal');InsurAI.showToast('Plan Created!','New plan is now available for assignment.','success')">Create Plan</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/app.js"></script>
+<script>
+const usersData = [
+  { name:'Ravi Kumar', email:'ravi.kumar@techcorp.com', dept:'IT', plan:'Premium', joined:'Jan 15, 2023', status:'active' },
+  { name:'Meena Patel', email:'meena.patel@techcorp.com', dept:'Finance', plan:'Basic', joined:'Mar 2, 2023', status:'active' },
+  { name:'Suresh Iyer', email:'suresh.iyer@techcorp.com', dept:'HR', plan:'Premium', joined:'Feb 10, 2023', status:'active' },
+  { name:'Kavita Desai', email:'kavita.desai@techcorp.com', dept:'Legal', plan:'Enterprise', joined:'Apr 5, 2022', status:'active' },
+  { name:'Rahul Verma', email:'rahul.verma@techcorp.com', dept:'Sales', plan:'Basic', joined:'Jun 18, 2023', status:'active' },
+  { name:'Priya Sharma', email:'priya.sharma@techcorp.com', dept:'Marketing', plan:'Premium', joined:'Aug 22, 2022', status:'inactive' },
+  { name:'Ajit Nair', email:'ajit.nair@techcorp.com', dept:'R&D', plan:'Enterprise', joined:'Sep 1, 2021', status:'active' },
+  { name:'Sita Ramesh', email:'sita.ramesh@techcorp.com', dept:'Operations', plan:'Basic', joined:'Nov 14, 2023', status:'active' },
+];
+
+const agentsData = [
+  { name:'Anita Singh', company:'LIC Corp', spec:'Health & Life', clients:28, rating:4.9, status:'active' },
+  { name:'Rajesh Mehta', company:'InsurTrust', spec:'Corporate Plans', clients:21, rating:4.7, status:'active' },
+  { name:'Priya Nair', company:'SafeGuard', spec:'Group Insurance', clients:19, rating:4.8, status:'active' },
+  { name:'Arjun Patel', company:'MaxLife', spec:'Life & Term', clients:15, rating:4.6, status:'active' },
+  { name:'Sunita Rao', company:'SecureLife', spec:'Medical Plans', clients:24, rating:4.9, status:'active' },
+  { name:'Vikram Shah', company:'TrustShield', spec:'Accidental Cover', clients:11, rating:4.5, status:'inactive' },
+];
+
+const allAppts = [
+  { emp:'Ravi Kumar', agent:'Anita Singh', date:'Mar 9 · 10:30 AM', reason:'Coverage upgrade', mode:'🎥 Video', status:'confirmed' },
+  { emp:'Meena Patel', agent:'Anita Singh', date:'Mar 9 · 2:00 PM', reason:'New enrollment', mode:'📞 Phone', status:'confirmed' },
+  { emp:'Arjun Joshi', agent:'Rajesh Mehta', date:'Mar 10 · 11:00 AM', reason:'Plan query', mode:'🎥 Video', status:'pending' },
+  { emp:'Nisha Gupta', agent:'Priya Nair', date:'Mar 11 · 3:00 PM', reason:'Claims help', mode:'🏢 In-person', status:'rescheduled' },
+  { emp:'Kiran Bhat', agent:'Anita Singh', date:'Mar 12 · 11:00 AM', reason:'Enterprise upgrade', mode:'🎥 Video', status:'pending' },
+  { emp:'Sanjay Tiwari', agent:'Sunita Rao', date:'Mar 13 · 2:30 PM', reason:'Family floater', mode:'📞 Phone', status:'confirmed' },
+  { emp:'Rahul Verma', agent:'Rajesh Mehta', date:'Mar 14 · 10:00 AM', reason:'Policy review', mode:'🎥 Video', status:'cancelled' },
+];
+
+const plansData = [
+  { name:'Basic Health Plan', category:'Health', premium:'₹2,499', coverage:'₹3,00,000', subscribers:342, status:'active' },
+  { name:'Premium Health Plan', category:'Health', premium:'₹4,999', coverage:'₹7,00,000', subscribers:601, status:'active' },
+  { name:'Enterprise Plan', category:'Health', premium:'₹8,999', coverage:'₹20,00,000', subscribers:189, status:'active' },
+  { name:'Group Life Insurance', category:'Life', premium:'₹1,999', coverage:'₹25,00,000', subscribers:875, status:'active' },
+  { name:'Accidental Cover', category:'Accident', premium:'₹999', coverage:'₹5,00,000', subscribers:421, status:'active' },
+  { name:'Family Floater Add-on', category:'Health', premium:'₹2,199', coverage:'₹5,00,000', subscribers:234, status:'active' },
+];
+
+function renderUsers() {
+  const el = document.getElementById('userTable');
+  if (!el) return;
+  el.innerHTML = usersData.map(u => `
+    <tr>
+      <td><div style="font-weight:600;">${u.name}</div></td>
+      <td><div style="font-size:0.8125rem;">${u.email}</div></td>
+      <td>${u.dept}</td>
+      <td><span class="badge badge-primary">${u.plan}</span></td>
+      <td style="font-size:0.8125rem;">${u.joined}</td>
+      <td>${u.status==='active'?'<span class="badge badge-success badge-dot">Active</span>':'<span class="badge badge-neutral badge-dot">Inactive</span>'}</td>
+      <td>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="btn btn-outline btn-sm" onclick="InsurAI.showToast('Edit User','Opening edit form','info')">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="InsurAI.showToast('User deleted','${u.name} has been removed.','error')">Del</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function renderAgents() {
+  const el = document.getElementById('agentTable');
+  if (!el) return;
+  el.innerHTML = agentsData.map(a => `
+    <tr>
+      <td><div style="font-weight:600;">${a.name}</div></td>
+      <td>${a.company}</td>
+      <td>${a.spec}</td>
+      <td style="font-weight:700;">${a.clients}</td>
+      <td>⭐ ${a.rating}</td>
+      <td>${a.status==='active'?'<span class="badge badge-success badge-dot">Active</span>':'<span class="badge badge-neutral badge-dot">Inactive</span>'}</td>
+      <td>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="btn btn-outline btn-sm" onclick="InsurAI.showToast('Edit Agent','Opening edit form','info')">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="InsurAI.showToast('Agent removed','','error')">Remove</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function renderAllAppts() {
+  const el = document.getElementById('allApptsTable');
+  if (!el) return;
+  const statusMap = { confirmed:'badge-success', pending:'badge-warning', cancelled:'badge-danger', rescheduled:'badge-info' };
+  el.innerHTML = allAppts.map(a => `
+    <tr>
+      <td style="font-weight:600;">${a.emp}</td>
+      <td>${a.agent}</td>
+      <td style="font-size:0.8125rem;">${a.date}</td>
+      <td>${a.reason}</td>
+      <td>${a.mode}</td>
+      <td><span class="badge ${statusMap[a.status]||'badge-neutral'} badge-dot">${a.status.charAt(0).toUpperCase()+a.status.slice(1)}</span></td>
+      <td><button class="btn btn-danger btn-sm" onclick="InsurAI.showToast('Appointment cancelled','Notification sent to both parties.','error')">Cancel</button></td>
+    </tr>`).join('');
+}
+
+function renderAdminPlans() {
+  const el = document.getElementById('adminPlanGrid');
+  if (!el) return;
+  el.innerHTML = plansData.map(p => `
+    <div class="card">
+      <div class="card-header"><h4>${p.name}</h4><span class="badge badge-primary">${p.category}</span></div>
+      <div class="card-body">
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.75rem;">
+          <span style="color:var(--text-muted);font-size:0.875rem;">Monthly Premium</span>
+          <span style="font-weight:700;color:var(--primary);">${p.premium}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.75rem;">
+          <span style="color:var(--text-muted);font-size:0.875rem;">Coverage</span>
+          <span style="font-weight:700;">${p.coverage}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:1rem;">
+          <span style="color:var(--text-muted);font-size:0.875rem;">Subscribers</span>
+          <span style="font-weight:700;color:var(--success-light);">${p.subscribers}</span>
+        </div>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="InsurAI.showToast('Edit Plan','Opening plan editor','info')">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="InsurAI.showToast('Plan deactivated','${p.name} has been deactivated.','error')">Deactivate</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+const templates = {
+  renewal: { subject: 'Policy Renewal Reminder – Action Required', msg: 'Dear Employee,\n\nYour insurance plan is expiring within the next 30 days. Please log in to InsurAI and confirm your renewal to avoid any coverage gaps.\n\nRegards,\nInsurAI Team' },
+  appt: { subject: 'Appointment Confirmation', msg: 'Dear Employee,\n\nYour appointment has been confirmed. Please check your dashboard for full details.\n\nRegards,\nInsurAI Team' },
+  cancel: { subject: 'Appointment Cancellation Notice', msg: 'Dear Employee,\n\nYour appointment has been cancelled. Please rebook at your earliest convenience.\n\nRegards,\nInsurAI Team' },
+  welcome: { subject: 'Welcome to InsurAI!', msg: 'Dear Employee,\n\nWelcome to InsurAI – your corporate insurance management platform. Log in to explore your benefits.\n\nRegards,\nInsurAI Team' },
+};
+function loadTemplate(key) {
+  if (!templates[key]) return;
+  document.getElementById('notifSubject').value = templates[key].subject;
+  document.getElementById('notifMessage').value = templates[key].msg;
+}
+
+function showSection(name, clickedEl) {
+  const sections = ['admindash','users','agents','adminplans','allappts','adminnotif','settings'];
+  sections.forEach(s => { const el=document.getElementById('sec-'+s); if(el) el.style.display=s===name?'block':'none'; });
+  document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
+  if(clickedEl) clickedEl.classList.add('active');
+  window.scrollTo(0,0);
+  if(name==='users') renderUsers();
+  if(name==='agents') renderAgents();
+  if(name==='allappts') renderAllAppts();
+  if(name==='adminplans') renderAdminPlans();
+}
+
+// Init charts
+InsurAI.renderBarChart('adminBookingChart', [
+  {label:'Sep',value:180},{label:'Oct',value:210},{label:'Nov',value:195},{label:'Dec',value:165},{label:'Jan',value:220},{label:'Feb',value:248},{label:'Mar',value:284}
+]);
+InsurAI.renderDonut('adminPlanDonut', [
+  {label:'Premium Health',value:601},{label:'Group Life',value:875},{label:'Basic Health',value:342},{label:'Enterprise',value:189},{label:'Others',value:655}
+], 2662);
+</script>
+</body>
+</html>

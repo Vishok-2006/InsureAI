@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Employee Dashboard – InsurAI</title>
+  <meta name="description" content="InsurAI Employee Portal – View plans, book appointments, use Voice AI, and manage your insurance."/>
+  <link rel="stylesheet" href="../assets/css/main.css"/>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-brand" href="../index.html">
+      <div class="navbar-logo-icon">AI</div>
+      Insur<span class="brand-dot">AI</span>
+    </a>
+    <div class="navbar-actions">
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.875rem;color:var(--text-secondary);">
+        <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.75rem;">RK</div>
+        Ravi Kumar
+      </div>
+      <a href="auth.html" class="btn btn-outline btn-sm">Sign Out</a>
+      <button class="hamburger" onclick="InsurAI.toggleSidebar()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="dashboard-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">RK</div>
+        <div class="sidebar-user-info">
+          <div class="name">Ravi Kumar</div>
+          <div class="role">Employee · IT Dept</div>
+        </div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Overview</div>
+      <div class="sidebar-link active" id="nav-overview" onclick="showSection('overview', this)">
+        <span class="icon">🏠</span> Dashboard
+      </div>
+      <div class="sidebar-section-label">Insurance</div>
+      <div class="sidebar-link" id="nav-plans" onclick="showSection('plans', this)">
+        <span class="icon">📋</span> My Plans
+      </div>
+      <div class="sidebar-link" id="nav-book" onclick="showSection('book', this)">
+        <span class="icon">📅</span> Book Appointment
+      </div>
+      <div class="sidebar-link" id="nav-history" onclick="showSection('history', this)">
+        <span class="icon">🕒</span> Appointment History
+        <span class="badge-count">3</span>
+      </div>
+      <div class="sidebar-section-label">AI Tools</div>
+      <div class="sidebar-link" id="nav-voice" onclick="showSection('voice', this)">
+        <span class="icon">🎤</span> Voice Assistant
+      </div>
+      <div class="sidebar-section-label">Alerts</div>
+      <div class="sidebar-link" id="nav-notif" onclick="showSection('notif', this)">
+        <span class="icon">🔔</span> Notifications
+        <span class="badge-count">5</span>
+      </div>
+      <div class="sidebar-section-label">Account</div>
+      <div class="sidebar-link" id="nav-profile" onclick="showSection('profile', this)">
+        <span class="icon">👤</span> My Profile
+      </div>
+      <div class="sidebar-link" onclick="window.location.href='auth.html'">
+        <span class="icon">🚪</span> Sign Out
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- ─── OVERVIEW ─── -->
+    <section id="sec-overview">
+      <div class="page-header">
+        <h2>Good Morning, Ravi! 👋</h2>
+        <p>Here's a snapshot of your insurance status and upcoming events.</p>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="grid-4 mb-4">
+        <div class="stat-card">
+          <div class="stat-icon blue">📋</div>
+          <div>
+            <div class="stat-value">2</div>
+            <div class="stat-label">Active Plans</div>
+            <div class="stat-change up">↑ Premium + Medical</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">📅</div>
+          <div>
+            <div class="stat-value">1</div>
+            <div class="stat-label">Upcoming Appt.</div>
+            <div class="stat-change up">Tomorrow, 10:30 AM</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">🔔</div>
+          <div>
+            <div class="stat-value">5</div>
+            <div class="stat-label">Unread Alerts</div>
+            <div class="stat-change down">2 urgent</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon cyan">🛡️</div>
+          <div>
+            <div class="stat-value">₹7L</div>
+            <div class="stat-label">Total Coverage</div>
+            <div class="stat-change up">↑ Renews Jul 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Upcoming Appointment Card -->
+        <div class="card">
+          <div class="card-header">
+            <h4>📅 Upcoming Appointment</h4>
+            <span class="badge badge-success badge-dot">Confirmed</span>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;align-items:center;gap:1rem;padding:1rem;background:var(--primary-50);border-radius:var(--radius-md);border:1px solid var(--primary-100);">
+              <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1.125rem;flex-shrink:0;">AS</div>
+              <div style="flex:1;">
+                <div style="font-weight:700;color:var(--text-primary);">Anita Singh</div>
+                <div style="font-size:0.8125rem;color:var(--text-muted);">Senior Insurance Agent · LIC Corp</div>
+                <div style="font-size:0.875rem;color:var(--primary);font-weight:600;margin-top:0.25rem;">📅 March 9, 2026 · 10:30 AM</div>
+              </div>
+            </div>
+            <p style="font-size:0.875rem;color:var(--text-secondary);margin-top:1rem;padding:0.75rem;background:var(--grey-50);border-radius:var(--radius-sm);">
+              <strong>Reason:</strong> Discuss upgrading medical coverage and adding family floater to Premium plan.
+            </p>
+            <div style="display:flex;gap:0.75rem;margin-top:1rem;">
+              <button class="btn btn-danger btn-sm" onclick="InsurAI.showToast('Appointment cancelled','We've notified your agent.','error')">Cancel</button>
+              <button class="btn btn-outline btn-sm" onclick="showSection('book', document.getElementById('nav-book'))">Reschedule</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coverage Summary -->
+        <div class="card">
+          <div class="card-header">
+            <h4>🛡️ Coverage Summary</h4>
+            <span class="badge badge-primary">2 Active</span>
+          </div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:0.875rem;">
+            <div style="padding:1rem;border:1px solid var(--border);border-radius:var(--radius-md);display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:700;font-size:0.9375rem;">Premium Health Plan</div>
+                <div style="font-size:0.8125rem;color:var(--text-muted);">Medical · Vision · Dental</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-weight:800;color:var(--primary);">₹7,00,000</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Coverage</div>
+              </div>
+            </div>
+            <div style="padding:1rem;border:1px solid var(--border);border-radius:var(--radius-md);display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:700;font-size:0.9375rem;">Group Life Insurance</div>
+                <div style="font-size:0.8125rem;color:var(--text-muted);">Term · Accidental Death</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-weight:800;color:var(--primary);">₹25,00,000</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Sum Assured</div>
+              </div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="showSection('plans', document.getElementById('nav-plans'))">View All Plans →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Notifications Preview -->
+      <div class="card mt-3">
+        <div class="card-header">
+          <h4>🔔 Recent Notifications</h4>
+          <button class="btn btn-outline btn-sm" onclick="showSection('notif', document.getElementById('nav-notif'))">View All</button>
+        </div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:0.75rem;">
+          <div class="notif-item unread">
+            <div class="notif-icon blue">📅</div>
+            <div class="notif-content">
+              <div class="title">Appointment Confirmed</div>
+              <div class="desc">Your appointment with Anita Singh on March 9 at 10:30 AM has been confirmed.</div>
+              <div class="time">15 minutes ago</div>
+            </div>
+          </div>
+          <div class="notif-item unread">
+            <div class="notif-icon orange">⚠️</div>
+            <div class="notif-content">
+              <div class="title">Plan Renewal Reminder</div>
+              <div class="desc">Your Premium Health Plan renews in 30 days. Review and confirm coverage.</div>
+              <div class="time">2 hours ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PLANS ─── -->
+    <section id="sec-plans" style="display:none;">
+      <div class="page-header">
+        <h2>📋 My Insurance Plans</h2>
+        <p>View your active plans, coverage details, and available upgrades.</p>
+      </div>
+
+      <div style="display:flex;gap:0.75rem;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;">
+        <div class="filter-bar">
+          <div class="filter-chip active">All Plans</div>
+          <div class="filter-chip">Active</div>
+          <div class="filter-chip">Expired</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="InsurAI.openModal('upgradePlanModal')">+ Request Upgrade</button>
+      </div>
+
+      <div class="grid-3">
+        <div class="plan-card">
+          <div class="plan-header">
+            <div class="plan-name">Premium Health Plan</div>
+            <div style="font-size:0.875rem;color:var(--text-muted);">Corporate Medical</div>
+            <div class="plan-price"><span class="amount">₹7L</span><span class="period"> coverage</span></div>
+          </div>
+          <div class="plan-body">
+            <ul class="plan-features">
+              <li>In-patient hospitalization</li>
+              <li>Outpatient consultations (50/year)</li>
+              <li>Dental & Vision included</li>
+              <li>Family floater eligible</li>
+              <li>Cashless at 5000+ hospitals</li>
+            </ul>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:var(--grey-50);border-radius:var(--radius-sm);margin-bottom:1rem;">
+              <span style="font-size:0.8125rem;color:var(--text-muted);">Renews</span>
+              <span style="font-size:0.875rem;font-weight:700;color:var(--warning);">Jul 15, 2026</span>
+            </div>
+            <span class="badge badge-success badge-dot">Active</span>
+          </div>
+        </div>
+
+        <div class="plan-card">
+          <div class="plan-header">
+            <div class="plan-name">Group Life Insurance</div>
+            <div style="font-size:0.875rem;color:var(--text-muted);">Term + Accidental</div>
+            <div class="plan-price"><span class="amount">₹25L</span><span class="period"> sum assured</span></div>
+          </div>
+          <div class="plan-body">
+            <ul class="plan-features">
+              <li>Term coverage till age 65</li>
+              <li>Accidental death benefit</li>
+              <li>Permanent disability cover</li>
+              <li>Nominee management</li>
+              <li>Tax benefit under 80C</li>
+            </ul>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:var(--grey-50);border-radius:var(--radius-sm);margin-bottom:1rem;">
+              <span style="font-size:0.8125rem;color:var(--text-muted);">Renews</span>
+              <span style="font-size:0.875rem;font-weight:700;color:var(--success-light);">Jan 10, 2027</span>
+            </div>
+            <span class="badge badge-success badge-dot">Active</span>
+          </div>
+        </div>
+
+        <div class="plan-card" style="border:2px dashed var(--border);box-shadow:none;">
+          <div class="plan-header" style="text-align:center;padding:2.5rem 2rem;">
+            <div style="font-size:2.5rem;margin-bottom:0.75rem;">➕</div>
+            <h4 style="margin-bottom:0.5rem;">Add More Coverage</h4>
+            <p style="font-size:0.875rem;color:var(--text-muted);">Explore additional plans available for your organization.</p>
+            <a href="plans.html" class="btn btn-primary btn-sm mt-3">Explore Plans</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── BOOK APPOINTMENT ─── -->
+    <section id="sec-book" style="display:none;">
+      <div class="page-header">
+        <h2>📅 Book Appointment</h2>
+        <p>Schedule a meeting with an insurance agent at your preferred time.</p>
+      </div>
+
+      <!-- Stepper -->
+      <div class="stepper mb-4" id="stepper">
+        <div class="step-item">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div class="step-circle active" id="step1Circle">1</div>
+            <div class="step-label">Select Agent</div>
+          </div>
+          <div class="step-line" id="line1"></div>
+        </div>
+        <div class="step-item">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div class="step-circle pending" id="step2Circle">2</div>
+            <div class="step-label">Date & Time</div>
+          </div>
+          <div class="step-line" id="line2"></div>
+        </div>
+        <div class="step-item">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div class="step-circle pending" id="step3Circle">3</div>
+            <div class="step-label">Details</div>
+          </div>
+          <div class="step-line" id="line3"></div>
+        </div>
+        <div class="step-item" style="flex:0;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div class="step-circle pending" id="step4Circle">4</div>
+            <div class="step-label">Confirm</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 1: Select Agent -->
+      <div id="bookStep1">
+        <h4 style="margin-bottom:1.25rem;">Choose Your Insurance Agent</h4>
+        <div class="search-bar mb-3" style="max-width:100%;">
+          <span>🔍</span>
+          <input type="text" placeholder="Search agents by name or specialization..."/>
+        </div>
+        <div class="grid-3" id="agentList">
+          <!-- Agents rendered by JS -->
+        </div>
+        <div class="mt-3" style="display:flex;justify-content:flex-end;">
+          <button class="btn btn-primary" onclick="goBookStep(2)" id="stepNextBtn1" disabled>Next: Pick Date →</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Date & Time -->
+      <div id="bookStep2" style="display:none;">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h4>📅 Select Date</h4>
+              <div style="display:flex;gap:0.5rem;align-items:center;">
+                <button class="btn btn-icon btn-outline" onclick="changeCalMonth(-1)">‹</button>
+                <span id="calMonthLabel" style="font-weight:700;font-size:0.9375rem;">March 2026</span>
+                <button class="btn btn-icon btn-outline" onclick="changeCalMonth(1)">›</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:0.5rem;">
+                <div style="text-align:center;font-size:0.6875rem;font-weight:700;color:var(--text-muted);padding:0.375rem 0;">Su</div>
+                <div style="text-align:center;font-size:0.6875rem;font-weight:700;color:var(--text-muted);padding:0.375rem 0;">Mo</div>
+                <div style="text-align:center;font-size:0.6875rem;font-weight:700;color:var(--text-muted);padding:0.375rem 0;">Tu</div>
+                <div style="text-align:center;font-size:0.6875rem;font-weight:700;color:var(--text-muted);padding:0.375rem 0;">We</div>
+                <div style="text-align:center;font-size:0.6875rem;font-weight:700;color:var(--text-muted);padding:0.375rem 0;">Th</div>
+                <div style="text-align:center;font-size:0.6875rem;font-weight:700;color:var(--text-muted);padding:0.375rem 0;">Fr</div>
+                <div style="text-align:center;font-size:0.6875rem;font-weight:700;color:var(--text-muted);padding:0.375rem 0;">Sa</div>
+              </div>
+              <div class="calendar-grid" id="calGrid"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>⏰ Available Time Slots</h4></div>
+            <div class="card-body">
+              <div id="selectedDateLabel" style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1rem;">Select a date to see available slots</div>
+              <div class="slot-grid" id="slotGrid"></div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3" style="display:flex;justify-content:space-between;">
+          <button class="btn btn-outline" onclick="goBookStep(1)">← Back</button>
+          <button class="btn btn-primary" onclick="goBookStep(3)" id="stepNextBtn2" disabled>Next: Enter Details →</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Details -->
+      <div id="bookStep3" style="display:none;">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Reason for Appointment <span class="required">*</span></label>
+              <select class="form-control" id="apptReason">
+                <option value="">Select a reason</option>
+                <option>Policy review and renewal</option>
+                <option>New plan enrollment</option>
+                <option>Coverage upgrade request</option>
+                <option>Claims assistance</option>
+                <option>Adding family member</option>
+                <option>General query</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Additional Notes</label>
+              <textarea class="form-control" rows="4" placeholder="Describe what you'd like to discuss..."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Preferred Meeting Mode</label>
+              <div style="display:flex;gap:1rem;">
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                  <input type="radio" name="mode" value="video" checked style="accent-color:var(--primary);"> Video Call
+                </label>
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                  <input type="radio" name="mode" value="phone" style="accent-color:var(--primary);"> Phone Call
+                </label>
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                  <input type="radio" name="mode" value="in-person" style="accent-color:var(--primary);"> In-Person
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3" style="display:flex;justify-content:space-between;">
+          <button class="btn btn-outline" onclick="goBookStep(2)">← Back</button>
+          <button class="btn btn-primary" onclick="goBookStep(4)">Review & Confirm →</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Confirm -->
+      <div id="bookStep4" style="display:none;">
+        <div class="card">
+          <div class="card-header"><h4>✅ Confirm Your Appointment</h4></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+              <div style="display:flex;justify-content:space-between;padding:0.875rem;background:var(--grey-50);border-radius:var(--radius-md);">
+                <span style="font-weight:600;color:var(--text-muted);">Agent</span>
+                <span style="font-weight:700;" id="confirmAgent">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:0.875rem;background:var(--grey-50);border-radius:var(--radius-md);">
+                <span style="font-weight:600;color:var(--text-muted);">Date & Time</span>
+                <span style="font-weight:700;" id="confirmDateTime">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:0.875rem;background:var(--grey-50);border-radius:var(--radius-md);">
+                <span style="font-weight:600;color:var(--text-muted);">Reason</span>
+                <span style="font-weight:700;" id="confirmReason">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:0.875rem;background:var(--grey-50);border-radius:var(--radius-md);">
+                <span style="font-weight:600;color:var(--text-muted);">Mode</span>
+                <span style="font-weight:700;">Video Call</span>
+              </div>
+            </div>
+            <div style="margin-top:1.5rem;padding:1rem;background:var(--primary-50);border-radius:var(--radius-md);border:1px solid var(--primary-100);">
+              <p style="font-size:0.875rem;color:var(--primary);"><strong>📧 Confirmation email</strong> will be sent to ravi.kumar@techcorp.com within 5 minutes of booking.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3" style="display:flex;justify-content:space-between;">
+          <button class="btn btn-outline" onclick="goBookStep(3)">← Back</button>
+          <button class="btn btn-success btn-lg" onclick="confirmBooking()">🎉 Confirm Booking</button>
+        </div>
+      </div>
+
+      <!-- Success State -->
+      <div id="bookSuccess" style="display:none;text-align:center;padding:3rem 0;">
+        <div style="font-size:4rem;margin-bottom:1rem;animation:fadeIn 0.5s ease;">🎉</div>
+        <h3 style="margin-bottom:0.5rem;">Appointment Booked Successfully!</h3>
+        <p style="color:var(--text-muted);margin-bottom:2rem;">A confirmation email has been sent to your registered email address.</p>
+        <button class="btn btn-primary" onclick="resetBooking()">Book Another Appointment</button>
+      </div>
+    </section>
+
+    <!-- ─── APPOINTMENT HISTORY ─── -->
+    <section id="sec-history" style="display:none;">
+      <div class="page-header">
+        <h2>🕒 Appointment History</h2>
+        <p>View all your past and upcoming appointments.</p>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+        <div class="search-bar"><span>🔍</span><input type="text" placeholder="Search appointments..."/></div>
+        <div class="filter-bar">
+          <div class="filter-chip active">All</div>
+          <div class="filter-chip">Confirmed</div>
+          <div class="filter-chip">Pending</div>
+          <div class="filter-chip">Completed</div>
+          <div class="filter-chip">Cancelled</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Agent</th><th>Date & Time</th><th>Reason</th><th>Mode</th><th>Status</th><th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="historyTable">
+              <tr>
+                <td><div style="font-weight:600;">Anita Singh</div><div style="font-size:0.75rem;color:var(--text-muted);">LIC Corp</div></td>
+                <td>Mar 9, 2026 · 10:30 AM</td>
+                <td>Coverage upgrade</td>
+                <td>🎥 Video</td>
+                <td><span class="badge badge-success badge-dot">Confirmed</span></td>
+                <td><button class="btn btn-danger btn-sm" onclick="InsurAI.showToast('Appointment cancelled','','error')">Cancel</button></td>
+              </tr>
+              <tr>
+                <td><div style="font-weight:600;">Rajesh Mehta</div><div style="font-size:0.75rem;color:var(--text-muted);">InsurTrust</div></td>
+                <td>Feb 20, 2026 · 02:00 PM</td>
+                <td>Policy review</td>
+                <td>📞 Phone</td>
+                <td><span class="badge badge-neutral badge-dot">Completed</span></td>
+                <td><button class="btn btn-outline btn-sm">Rebook</button></td>
+              </tr>
+              <tr>
+                <td><div style="font-weight:600;">Priya Nair</div><div style="font-size:0.75rem;color:var(--text-muted);">SafeGuard</div></td>
+                <td>Jan 11, 2026 · 11:00 AM</td>
+                <td>New enrollment</td>
+                <td>🏢 In-Person</td>
+                <td><span class="badge badge-neutral badge-dot">Completed</span></td>
+                <td><button class="btn btn-outline btn-sm">Rebook</button></td>
+              </tr>
+              <tr>
+                <td><div style="font-weight:600;">Arjun Patel</div><div style="font-size:0.75rem;color:var(--text-muted);">MaxLife</div></td>
+                <td>Dec 5, 2025 · 03:30 PM</td>
+                <td>Claims assistance</td>
+                <td>🎥 Video</td>
+                <td><span class="badge badge-danger badge-dot">Cancelled</span></td>
+                <td><button class="btn btn-outline btn-sm">Rebook</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── VOICE ASSISTANT ─── -->
+    <section id="sec-voice" style="display:none;">
+      <div class="page-header">
+        <h2>🎤 Voice AI Assistant</h2>
+        <p>Ask any insurance-related question using your voice or type it below.</p>
+      </div>
+      <div class="grid-2" style="gap:2rem;">
+        <div>
+          <div class="voice-panel" style="max-width:100%;margin-bottom:1.5rem;">
+            <h4 style="margin-bottom:0.375rem;">AI Insurance Assistant</h4>
+            <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1.5rem;">Click the microphone and ask a question in Hindi or English</p>
+            <div style="display:flex;justify-content:center;margin-bottom:1.5rem;">
+              <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤</button>
+            </div>
+            <div id="voiceStatus" style="font-size:0.875rem;color:var(--text-muted);margin-bottom:0.75rem;">Press the button and start speaking</div>
+            <div class="voice-wave" id="voiceWave" style="display:none;">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="voice-transcript" id="voiceTranscript">Your spoken query will appear here...</div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>💬 Type Your Question</h4></div>
+            <div class="card-body">
+              <div class="input-group mb-2">
+                <span class="input-icon">❓</span>
+                <input class="form-control" id="voiceInput" type="text" placeholder="e.g. What is my deductible for dental?"/>
+              </div>
+              <button class="btn btn-primary w-full" onclick="askAI()">Ask AI Assistant →</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4 style="margin-bottom:1rem;">💡 Quick Questions</h4>
+          <div style="display:flex;flex-direction:column;gap:0.625rem;margin-bottom:1.5rem;" id="quickQuestions"></div>
+          <div class="card" id="aiResponseCard" style="display:none;">
+            <div class="card-header"><h4>🤖 AI Response</h4></div>
+            <div class="card-body">
+              <p id="aiResponse" style="line-height:1.8;"></p>
+              <div style="margin-top:1rem;padding:0.75rem;background:var(--primary-50);border-radius:var(--radius-sm);">
+                <p style="font-size:0.8125rem;color:var(--primary);">📢 <strong>Need more help?</strong> <a href="#" onclick="showSection('book', document.getElementById('nav-book'))" style="color:var(--primary);font-weight:700;">Book an appointment</a> with a live agent.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── NOTIFICATIONS ─── -->
+    <section id="sec-notif" style="display:none;">
+      <div class="page-header">
+        <h2>🔔 Notifications</h2>
+        <p>Stay up-to-date with your appointments, plan renewals, and policy updates.</p>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+        <div class="filter-bar">
+          <div class="filter-chip active">All</div>
+          <div class="filter-chip">Unread</div>
+          <div class="filter-chip">Appointments</div>
+          <div class="filter-chip">Plans</div>
+          <div class="filter-chip">System</div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="InsurAI.showToast('All marked as read','','success')">Mark all read</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;" id="notifList"></div>
+    </section>
+
+    <!-- ─── PROFILE ─── -->
+    <section id="sec-profile" style="display:none;">
+      <div class="page-header">
+        <h2>👤 My Profile</h2>
+        <p>Manage your personal information and account settings.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h4>Personal Information</h4><button class="btn btn-outline btn-sm" onclick="InsurAI.showToast('Editing enabled','Update your details below','info')">Edit</button></div>
+          <div class="card-body">
+            <div style="display:flex;align-items:center;gap:1.25rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);">
+              <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:1.5rem;">RK</div>
+              <div>
+                <div style="font-size:1.25rem;font-weight:700;">Ravi Kumar</div>
+                <div style="font-size:0.875rem;color:var(--text-muted);">ravi.kumar@techcorp.com</div>
+                <span class="badge badge-primary mt-1">Employee</span>
+              </div>
+            </div>
+            <div class="form-group"><label class="form-label">Full Name</label><input class="form-control" value="Ravi Kumar" readonly/></div>
+            <div class="form-group"><label class="form-label">Email</label><input class="form-control" value="ravi.kumar@techcorp.com" readonly/></div>
+            <div class="form-group"><label class="form-label">Phone</label><input class="form-control" value="+91 98765 43210" readonly/></div>
+            <div class="form-group"><label class="form-label">Department</label><input class="form-control" value="Information Technology" readonly/></div>
+            <div class="form-group"><label class="form-label">Employee ID</label><input class="form-control" value="EMP-20230145" readonly/></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h4>Security Settings</h4></div>
+          <div class="card-body">
+            <div class="form-group"><label class="form-label">Current Password</label><input class="form-control" type="password" placeholder="••••••••"/></div>
+            <div class="form-group"><label class="form-label">New Password</label><input class="form-control" type="password" placeholder="Min. 8 characters"/></div>
+            <div class="form-group"><label class="form-label">Confirm New Password</label><input class="form-control" type="password" placeholder="Re-enter password"/></div>
+            <button class="btn btn-primary" onclick="InsurAI.showToast('Password updated!','Your password has been changed successfully.','success')">Update Password</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Upgrade Modal -->
+<div class="modal-overlay" id="upgradePlanModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h4>Request Plan Upgrade</h4>
+      <button class="modal-close" onclick="InsurAI.closeModal('upgradePlanModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Current Plan</label>
+        <input class="form-control" value="Premium Health Plan" readonly/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Requested Plan <span class="required">*</span></label>
+        <select class="form-control">
+          <option>Enterprise Health Plan</option>
+          <option>Family Floater Add-on</option>
+          <option>International Coverage</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Reason for Upgrade</label>
+        <textarea class="form-control" rows="3" placeholder="Briefly explain why you need the upgrade..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="InsurAI.closeModal('upgradePlanModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="InsurAI.closeModal('upgradePlanModal');InsurAI.showToast('Request submitted!','Your plan upgrade request has been sent to HR.','success')">Submit Request</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/app.js"></script>
+<script>
+// Agents Data
+const agents = [
+  { id:1, name:'Anita Singh', title:'Senior Agent', company:'LIC Corp', speciality:'Health & Life', rating:4.9, reviews:87, available:true },
+  { id:2, name:'Rajesh Mehta', title:'Insurance Advisor', company:'InsurTrust', speciality:'Corporate Plans', rating:4.7, reviews:63, available:true },
+  { id:3, name:'Priya Nair', title:'Certified Advisor', company:'SafeGuard', speciality:'Group Insurance', rating:4.8, reviews:54, available:false },
+  { id:4, name:'Arjun Patel', title:'Senior Advisor', company:'MaxLife', speciality:'Life & Term', rating:4.6, reviews:41, available:true },
+  { id:5, name:'Sunita Rao', title:'Insurance Expert', company:'SecureLife', speciality:'Medical Plans', rating:4.9, reviews:102, available:true },
+  { id:6, name:'Vikram Shah', title:'Policy Specialist', company:'TrustShield', speciality:'Accidental Cover', rating:4.5, reviews:29, available:false },
+];
+
+let selectedAgent = null, selectedDate = null, selectedSlot = null;
+let calYear = 2026, calMonth = 2; // March = 2
+
+function renderAgents() {
+  const el = document.getElementById('agentList');
+  el.innerHTML = agents.map(a => `
+    <div style="background:white;border:2px solid ${selectedAgent?.id===a.id?'var(--primary)':'var(--border)'};border-radius:var(--radius-lg);padding:1.25rem;cursor:pointer;transition:all 0.25s;box-shadow:${selectedAgent?.id===a.id?'var(--shadow-blue)':'var(--shadow-sm)'};" onclick="selectAgent(${a.id})" id="agentCard${a.id}">
+      <div style="display:flex;align-items:center;gap:0.875rem;margin-bottom:0.875rem;">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1rem;flex-shrink:0;">${a.name.split(' ').map(n=>n[0]).join('')}</div>
+        <div>
+          <div style="font-weight:700;font-size:0.9375rem;">${a.name}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">${a.title} · ${a.company}</div>
+        </div>
+      </div>
+      <div style="font-size:0.8125rem;color:var(--primary);font-weight:600;margin-bottom:0.375rem;">📋 ${a.speciality}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:0.8125rem;color:var(--text-muted);">⭐ ${a.rating} (${a.reviews} reviews)</span>
+        <span style="font-size:0.75rem;font-weight:700;padding:0.2rem 0.5rem;border-radius:var(--radius-full);background:${a.available?'#E8F5E9':'#FFEBEE'};color:${a.available?'var(--success-light)':'var(--danger-light)'};">${a.available?'Available':'Busy'}</span>
+      </div>
+    </div>`).join('');
+}
+
+function selectAgent(id) {
+  selectedAgent = agents.find(a => a.id === id);
+  renderAgents();
+  document.getElementById('stepNextBtn1').disabled = false;
+}
+
+function renderCalendar() {
+  const grid = document.getElementById('calGrid');
+  const label = document.getElementById('calMonthLabel');
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  label.textContent = `${months[calMonth]} ${calYear}`;
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  let html = '';
+  for (let i=0;i<firstDay;i++) html += `<div class="cal-day empty"></div>`;
+  for (let d=1;d<=daysInMonth;d++) {
+    const date = new Date(calYear, calMonth, d);
+    const isPast = date < today;
+    const isSel = selectedDate && date.toDateString()===selectedDate.toDateString();
+    const isToday = date.toDateString()===today.toDateString();
+    const cls = [isPast?'past':'', isSel?'selected':'', isToday&&!isSel?'today':''].filter(Boolean).join(' ');
+    html += `<div class="cal-day ${cls}" onclick="${isPast?'':'selectCalDate('+d+')'}">${d}</div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function changeCalMonth(dir) {
+  calMonth += dir;
+  if (calMonth < 0) { calMonth=11; calYear--; }
+  if (calMonth > 11) { calMonth=0; calYear++; }
+  renderCalendar();
+}
+
+function selectCalDate(d) {
+  selectedDate = new Date(calYear, calMonth, d);
+  selectedSlot = null;
+  renderCalendar();
+  renderSlots();
+  document.getElementById('selectedDateLabel').textContent = `Available slots for ${selectedDate.toLocaleDateString('en-IN',{weekday:'long',day:'2-digit',month:'long'})}`;
+  document.getElementById('stepNextBtn2').disabled = true;
+}
+
+function renderSlots() {
+  const times = ['09:00','09:30','10:00','10:30','11:00','11:30','02:00','02:30','03:00','03:30','04:00','04:30'];
+  const booked = [1,4,7];
+  const grid = document.getElementById('slotGrid');
+  grid.innerHTML = times.map((t,i) => {
+    const isBooked = booked.includes(i);
+    const isSel = selectedSlot === t;
+    return `<div class="time-slot ${isBooked?'booked':isSel?'selected':''}" onclick="${isBooked?'':'pickSlot(\''+t+'\')'}">${t}</div>`;
+  }).join('');
+}
+
+function pickSlot(t) {
+  selectedSlot = t;
+  renderSlots();
+  document.getElementById('stepNextBtn2').disabled = false;
+}
+
+let currentStep = 1;
+
+function goBookStep(n) {
+  for (let i=1;i<=4;i++) {
+    const el = document.getElementById('bookStep'+i);
+    if (el) el.style.display = i===n ? 'block' : 'none';
+  }
+  for (let i=1;i<=4;i++) {
+    const circle = document.getElementById('step'+i+'Circle');
+    if (!circle) continue;
+    circle.className = 'step-circle ' + (i < n ? 'done' : i===n ? 'active' : 'pending');
+    circle.textContent = i < n ? '✓' : i;
+  }
+  for (let i=1;i<=3;i++) {
+    const line = document.getElementById('line'+i);
+    if (line) line.className = 'step-line ' + (i < n ? 'done' : '');
+  }
+  if (n===4) {
+    document.getElementById('confirmAgent').textContent = selectedAgent?.name || '—';
+    document.getElementById('confirmDateTime').textContent = selectedDate ? `${selectedDate.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})} · ${selectedSlot}` : '—';
+    document.getElementById('confirmReason').textContent = document.getElementById('apptReason')?.value || '—';
+  }
+  currentStep = n;
+}
+
+function confirmBooking() {
+  const btn = document.querySelector('#bookStep4 .btn-success');
+  btn.textContent = 'Booking...'; btn.disabled = true;
+  setTimeout(() => {
+    for (let i=1;i<=4;i++) { const el=document.getElementById('bookStep'+i); if(el) el.style.display='none'; }
+    document.getElementById('bookSuccess').style.display = 'block';
+    InsurAI.showToast('Appointment Confirmed! 🎉', `Booked with ${selectedAgent?.name} on ${selectedDate?.toLocaleDateString()}`, 'success');
+  }, 1500);
+}
+
+function resetBooking() {
+  document.getElementById('bookSuccess').style.display = 'none';
+  selectedAgent=null; selectedDate=null; selectedSlot=null;
+  goBookStep(1); renderAgents();
+}
+
+// Notifications Data
+const notifications = [
+  { type:'blue', icon:'📅', title:'Appointment Confirmed', desc:'Your appointment with Anita Singh on March 9 at 10:30 AM has been confirmed.', time:'15 min ago', unread:true },
+  { type:'orange', icon:'⚠️', title:'Plan Renewal Reminder', desc:'Your Premium Health Plan renews in 30 days. Review and confirm coverage.', time:'2 hours ago', unread:true },
+  { type:'green', icon:'✅', title:'Appointment Completed', desc:'Your appointment with Rajesh Mehta on Feb 20 has been marked as completed.', time:'15 days ago', unread:false },
+  { type:'blue', icon:'📋', title:'New Plan Available', desc:'Enterprise Health Plan is now available for your tier. Click to explore.', time:'1 month ago', unread:false },
+  { type:'orange', icon:'🔔', title:'Profile Update Required', desc:'Please update your nominee details for Group Life Insurance by March 31.', time:'2 months ago', unread:false },
+];
+
+function renderNotifications() {
+  const el = document.getElementById('notifList');
+  if (!el) return;
+  el.innerHTML = notifications.map(n => `
+    <div class="notif-item ${n.unread?'unread':''}">
+      <div class="notif-icon ${n.type}">${n.icon}</div>
+      <div class="notif-content">
+        <div class="title">${n.title}</div>
+        <div class="desc">${n.desc}</div>
+        <div class="time">${n.time}</div>
+      </div>
+      ${n.unread ? '<div style="width:8px;height:8px;border-radius:50%;background:var(--primary);flex-shrink:0;margin-top:4px;"></div>' : ''}
+    </div>`).join('');
+}
+
+// Voice AI
+let voiceActive = false;
+const quickQs = [
+  { q:'What is my deductible?', a:'Your current Premium Health Plan has a ₹5,000 annual deductible for in-network services and ₹15,000 for out-of-network services.' },
+  { q:'How do I file a claim?', a:'To file a claim: Log into your portal → Claims → New Claim. Attach hospital bills and your discharge summary. Claims are processed within 7 working days.' },
+  { q:'Is dental coverage included?', a:'Yes! Your Premium Health Plan includes dental coverage for up to ₹25,000 per year, covering cleanings, fillings, and one X-ray per 6 months.' },
+  { q:'When does my plan expire?', a:'Your Premium Health Plan is valid until July 15, 2026. You will receive renewal reminders 30, 14, and 7 days before expiry.' },
+  { q:'Can I add family members?', a:'Yes. You can add a spouse and up to 2 children under the Family Floater option. Contact your agent or submit a request through the Plans section.' },
+];
+
+function renderQuickQuestions() {
+  const el = document.getElementById('quickQuestions');
+  if (!el) return;
+  el.innerHTML = quickQs.map((q, i) => `
+    <button class="filter-chip" style="text-align:left;width:100%;border-radius:var(--radius-sm);" onclick="displayAIResponse(${i})">
+      💬 ${q.q}
+    </button>`).join('');
+}
+
+function displayAIResponse(i) {
+  const card = document.getElementById('aiResponseCard');
+  const resp = document.getElementById('aiResponse');
+  card.style.display = 'block';
+  resp.textContent = '';
+  card.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  const text = quickQs[i].a;
+  let j=0;
+  const interval = setInterval(() => {
+    resp.textContent += text[j++];
+    if (j >= text.length) clearInterval(interval);
+  }, 18);
+}
+
+function askAI() {
+  const input = document.getElementById('voiceInput').value.trim();
+  if (!input) return;
+  const card = document.getElementById('aiResponseCard');
+  const resp = document.getElementById('aiResponse');
+  card.style.display = 'block';
+  resp.textContent = '';
+  const answer = "Thank you for your query! Based on your Premium Health Plan, our AI assistant is processing your question. For specific policy details, our insurance agents are available Monday to Friday, 9 AM – 6 PM. You can also book an appointment for personalized assistance.";
+  let j=0;
+  const interval = setInterval(() => {
+    resp.textContent += answer[j++];
+    if (j >= answer.length) clearInterval(interval);
+  }, 18);
+}
+
+function toggleVoice() {
+  voiceActive = !voiceActive;
+  const btn = document.getElementById('voiceBtn');
+  const status = document.getElementById('voiceStatus');
+  const wave = document.getElementById('voiceWave');
+  const transcript = document.getElementById('voiceTranscript');
+  if (voiceActive) {
+    btn.textContent = '⏹';
+    btn.classList.add('active');
+    status.textContent = '🔴 Listening... Speak now';
+    wave.style.display = 'flex';
+    // Simulate voice recognition
+    setTimeout(() => {
+      transcript.textContent = '"What is my medical coverage limit?"';
+      transcript.style.fontStyle = 'normal';
+      transcript.style.color = 'var(--text-primary)';
+    }, 2000);
+    setTimeout(() => {
+      toggleVoice();
+      displayAIResponse(0);
+    }, 4000);
+  } else {
+    btn.textContent = '🎤';
+    btn.classList.remove('active');
+    status.textContent = 'Press the button and start speaking';
+    wave.style.display = 'none';
+  }
+}
+
+// Section switching
+function showSection(name, clickedEl) {
+  const sections = ['overview','plans','book','history','voice','notif','profile'];
+  sections.forEach(s => {
+    const el = document.getElementById('sec-'+s);
+    if (el) el.style.display = s===name?'block':'none';
+  });
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  if (clickedEl) clickedEl.classList.add('active');
+  window.scrollTo(0,0);
+  // Init on first show
+  if (name==='book') { renderAgents(); renderCalendar(); }
+  if (name==='notif') renderNotifications();
+  if (name==='voice') renderQuickQuestions();
+}
+
+// Init
+renderAgents();
+renderCalendar();
+renderQuickQuestions();
+</script>
+</body>
+</html>
