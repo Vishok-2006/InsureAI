@@ -9,27 +9,27 @@ export const AuthProvider = ({ children }) => {
 
   // Load user from localStorage on init
   useEffect(() => {
-    const savedUser = localStorage.getItem('insurai_user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+    try {
+      const savedUser = localStorage.getItem('insurai_user');
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+      }
+    } catch {
+      localStorage.removeItem('insurai_user');
     }
     setLoading(false);
   }, []);
 
   const login = async (credentials) => {
-    try {
-      const response = await authApi.login(credentials);
-      const { data } = response;
-      
-      // Save to state and storage
-      setUser(data);
-      localStorage.setItem('insurai_token', data.token);
-      localStorage.setItem('insurai_user', JSON.stringify(data));
-      
-      return data;
-    } catch (error) {
-      throw error;
-    }
+    const response = await authApi.login(credentials);
+    // Handle both { data: {...} } and direct object formats
+    const userData = response?.data || response;
+
+    setUser(userData);
+    if (userData.token) localStorage.setItem('insurai_token', userData.token);
+    localStorage.setItem('insurai_user', JSON.stringify(userData));
+
+    return userData;
   };
 
   const logout = () => {

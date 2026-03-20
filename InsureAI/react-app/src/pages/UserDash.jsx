@@ -42,7 +42,7 @@ function Sidebar({ active, onNav }) {
             </div>
           </div>
         ))}
-        <div className="sidebar-link" onClick={() => useNavigate()('/auth')}>
+        <div className="sidebar-link" onClick={() => window.location.href = '/auth'}>
           <span className="icon">🚪</span> Sign Out
         </div>
       </nav>
@@ -329,18 +329,17 @@ export default function UserDash() {
   const fetchDashboardData = async () => {
     try {
       setLoading(true)
-      const userId = user.id || 1; // Fallback for demo
+      const userId = user?.id || 1
       const [pData, aData, nData] = await Promise.all([
         planApi.getPlans(),
         appointmentApi.getUserAppointments(userId),
         notificationApi.getForUser(userId)
       ])
-      setPlans(pData.data || [])
-      setAppointments(aData.data.content || [])
-      setNotifications(nData.data || [])
+      setPlans(pData?.data || [])
+      setAppointments(aData?.data?.content || [])
+      setNotifications(nData?.data || [])
     } catch (err) {
       console.error('Failed to fetch dashboard data:', err)
-      // toast('Error', 'Failed to load dashboard data', 'error')
     } finally {
       setLoading(false)
     }
@@ -352,7 +351,16 @@ export default function UserDash() {
     navigate('/auth')
   }
 
-  if (loading && !user) return <div style={{ display:'flex',height:'100vh',alignItems:'center',justifyContent:'center' }}>Loading...</div>
+  if (loading && !user) return (
+    <div className="loading-screen">
+      <div className="loading-logo">
+        <div style={{ width:48,height:48,borderRadius:12,background:'rgba(255,255,255,.2)',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:900,color:'white' }}>AI</div>
+        InsurAI
+      </div>
+      <div className="loading-spinner" />
+      <div className="loading-text">Loading your dashboard...</div>
+    </div>
+  )
 
   return (
     <div>
@@ -418,13 +426,14 @@ export default function UserDash() {
             <div className={`sidebar-link${section==='profile'?' active':''}`} onClick={()=>setSection('profile')}>
               <span className="icon">👤</span>My Profile
             </div>
-            <div className="sidebar-link" onClick={()=>navigate('/auth')}>
+            <div className="sidebar-link" onClick={handleLogout}>
               <span className="icon">🚪</span>Sign Out
             </div>
           </nav>
         </aside>
 
         <main className="main-content">
+          <div className="demo-banner">✅ Demo Mode: Running with mock data — no backend required. Use real credentials once Spring Boot is running.</div>
           {section === 'overview' && <OverviewSection onNav={setSection} user={user} appointments={appointments} notifications={notifications} />}
           {section === 'voice'    && <VoiceSection user={user} />}
           {section === 'plans'    && <PlansSection plans={plans} />}

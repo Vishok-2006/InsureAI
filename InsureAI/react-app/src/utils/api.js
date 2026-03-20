@@ -1,96 +1,105 @@
-const API_BASE_URL = 'http://localhost:8080/api';
+import {
+  mockLogin, mockRegister, mockGetPlans, mockGetAgents,
+  mockGetUserAppointments, mockGetAgentAppointments,
+  mockGetNotifications, mockBookAppointment,
+  mockUpdateAppointment, mockMarkNotifRead,
+} from './mockData'
+
+const API_BASE_URL = 'http://localhost:8080/api'
+
+// Set to true to always use mock (demo mode without backend)
+const DEMO_MODE = true
 
 /**
- * Common API helper for fetch requests.
- * Handles JWT token from localStorage and common response patterns.
+ * Core fetch wrapper — falls back to mock on network error or when DEMO_MODE is on
  */
-export const apiRequest = async (endpoint, options = {}) => {
-  const token = localStorage.getItem('insurai_token');
-  
+export const apiRequest = async (endpoint, options = {}, mockFn = null) => {
+  if (DEMO_MODE && mockFn) {
+    return await mockFn()
+  }
+
+  const token = localStorage.getItem('insurai_token')
   const headers = {
     'Content-Type': 'application/json',
     ...options.headers,
-  };
-
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
   }
-
-  const config = {
-    ...options,
-    headers,
-  };
+  if (token) headers['Authorization'] = `Bearer ${token}`
 
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Something went wrong');
-    }
-
-    return data;
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, { ...options, headers })
+    const data = await response.json()
+    if (!response.ok) throw new Error(data.message || 'Something went wrong')
+    return data
   } catch (error) {
-    console.error('API Request Error:', error);
-    throw error;
+    if (mockFn) {
+      console.warn(`[API] Backend unreachable for ${endpoint}, using mock data`)
+      return await mockFn()
+    }
+    console.error('API Request Error:', error)
+    throw error
   }
-};
+}
 
-/**
- * Auth specific API calls
- */
+// ── Auth API ─────────────────────────────────────────────────
 export const authApi = {
-  login: (credentials) => apiRequest('/auth/login', {
-    method: 'POST',
-    body: JSON.stringify(credentials),
-  }),
-  register: (userData) => apiRequest('/auth/register', {
-    method: 'POST',
-    body: JSON.stringify(userData),
-  }),
-};
+  login: (credentials) => {
+    if (DEMO_MODE) return mockLogin(credentials)
+    return apiRequest('/auth/login', {
+      method: 'POST', body: JSON.stringify(credentials)
+    }, () => mockLogin(credentials))
+  },
+  register: (userData) => {
+    if (DEMO_MODE) return mockRegister(userData)
+    return apiRequest('/auth/register', {
+      method: 'POST', body: JSON.stringify(userData)
+    }, () => mockRegister(userData))
+  },
+}
 
-/**
- * Plan specific API calls
- */
+// ── Plans API ─────────────────────────────────────────────────
 export const planApi = {
-  getPlans: (params = '') => apiRequest(`/plans${params}`),
-  getPlanById: (id) => apiRequest(`/plans/${id}`),
-};
+  getPlans: (params = '') =>
+    apiRequest(`/plans${params}`, {}, mockGetPlans),
+  getPlanById: (id) =>
+    apiRequest(`/plans/${id}`, {}, () => mockGetPlans()),
+}
 
-/**
- * Appointment specific API calls
- */
+// ── Appointments API ─────────────────────────────────────────
 export const appointmentApi = {
-  book: (data) => apiRequest('/appointments/book', {
-    method: 'POST',
-    body: JSON.stringify(data),
-  }),
-  getUserAppointments: (userId) => apiRequest(`/appointments/user/${userId}`),
-  getAgentAppointments: (agentId) => apiRequest(`/appointments/agent/${agentId}`),
-  accept: (id) => apiRequest(`/appointments/${id}/accept`, { method: 'PUT' }),
-  reject: (id, reason) => apiRequest(`/appointments/${id}/reject`, {
-    method: 'PUT',
-    body: JSON.stringify({ reason }),
-  }),
-  cancel: (id) => apiRequest(`/appointments/${id}/cancel`, { method: 'PUT' }),
-  complete: (id) => apiRequest(`/appointments/${id}/complete`, { method: 'PUT' }),
-  checkConflict: (agentId, date, time) => 
-    apiRequest(`/appointments/check-conflict?agentId=${agentId}&date=${date}&time=${time}`),
-};
+  book: (data) =>
+    apiRequest('/appointments/book', {
+      method: 'POST', body: JSON.stringify(data)
+    }, () => mockBookAppointment(data)),
+  getUserAppointments: (userId) =>
+    apiRequest(`/appointments/user/${userId}`, {}, mockGetUserAppointments),
+  getAgentAppointments: (agentId) =>
+    apiRequest(`/appointments/agent/${agentId}`, {}, mockGetAgentAppointments),
+  accept: (id) =>
+    apiRequest(`/appointments/${id}/accept`, { method: 'PUT' }, mockUpdateAppointment),
+  reject: (id, reason) =>
+    apiRequest(`/appointments/${id}/reject`, {
+      method: 'PUT', body: JSON.stringify({ reason })
+    }, mockUpdateAppointment),
+  cancel: (id) =>
+    apiRequest(`/appointments/${id}/cancel`, { method: 'PUT' }, mockUpdateAppointment),
+  complete: (id) =>
+    apiRequest(`/appointments/${id}/complete`, { method: 'PUT' }, mockUpdateAppointment),
+  checkConflict: (agentId, date, time) =>
+    apiRequest(`/appointments/check-conflict?agentId=${agentId}&date=${date}&time=${time}`, {}, () => Promise.resolve({ conflict: false })),
+}
 
-/**
- * Agent specific API calls
- */
+// ── Agents API ────────────────────────────────────────────────
 export const agentApi = {
-  getAgents: () => apiRequest('/agents'),
-  getAgentById: (id) => apiRequest(`/agents/${id}`),
-};
+  getAgents: () =>
+    apiRequest('/agents', {}, mockGetAgents),
+  getAgentById: (id) =>
+    apiRequest(`/agents/${id}`, {}, mockGetAgents),
+}
 
-/**
- * Notification specific API calls
- */
+// ── Notifications API ─────────────────────────────────────────
 export const notificationApi = {
-  getForUser: (userId) => apiRequest(`/notifications/user/${userId}`),
-  markAsRead: (id) => apiRequest(`/notifications/${id}/read`, { method: 'PUT' }),
-};
+  getForUser: (userId) =>
+    apiRequest(`/notifications/user/${userId}`, {}, mockGetNotifications),
+  markAsRead: (id) =>
+    apiRequest(`/notifications/${id}/read`, { method: 'PUT' }, mockMarkNotifRead),
+}

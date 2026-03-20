@@ -84,15 +84,12 @@ export default function AdminDash() {
   const fetchAdminData = async () => {
     try {
       setLoading(true)
-      const [uData, aData, pData] = await Promise.all([
-        // Mocking user list since we don't have a specific endpoint Yet, but let's assume it exists or use agents
-        agentApi.getAgents(), // Temporary placeholder for users
+      const [aData, pData] = await Promise.all([
         agentApi.getAgents(),
-        planApi.getPlans()
+        planApi.getPlans(),
       ])
-      setUsers([]) // Set to empty for now or fetch if endpoint added
-      setAgents(aData.data || [])
-      setPlans(pData.data || [])
+      setAgents(aData?.data || agentsData.map((a,i) => ({ id: i+1, firstName: a.name.split(' ')[0], lastName: a.name.split(' ')[1] || '', company: a.company, specialization: a.spec, isAvailable: a.status==='active' })))
+      setPlans(pData?.data || plansData.map((p,i) => ({ id: i+1, name: p.name, category: p.cat, premium: parseInt(p.premium.replace(/[₹,]/g,'')), coverageAmount: parseInt(p.cov.replace(/[₹,]/g,'')), isActive: p.active, subscribers: p.subs })))
     } catch (err) {
       console.error(err)
     } finally {
@@ -140,7 +137,7 @@ export default function AdminDash() {
                 <span className="icon">{icon}</span>{label}
               </div>
             ))}
-            <div className="sidebar-link" onClick={()=>navigate('/auth')}><span className="icon">🚪</span>Sign Out</div>
+            <div className="sidebar-link" onClick={handleLogout}><span className="icon">🚪</span>Sign Out</div>
           </nav>
         </aside>
 

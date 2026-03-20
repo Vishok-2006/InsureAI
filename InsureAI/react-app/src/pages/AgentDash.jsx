@@ -28,9 +28,9 @@ export default function AgentDash() {
   const fetchAgentData = async () => {
     try {
       setLoading(true)
-      const agentId = user.id || 1; 
+      const agentId = user?.id || 1
       const resp = await appointmentApi.getAgentAppointments(agentId)
-      setAppointments(resp.data.content || [])
+      setAppointments(resp?.data?.content || [])
     } catch (err) {
       console.error('Failed to fetch agent data:', err)
     } finally {
@@ -67,8 +67,8 @@ export default function AgentDash() {
         <aside className="sidebar">
           <div className="sidebar-header">
             <div className="sidebar-user">
-              <div className="sidebar-avatar" style={{ background:'linear-gradient(135deg,#006064,#00ACC1)' }}>AS</div>
-              <div className="sidebar-user-info"><div className="name">Anita Singh</div><div className="role">Senior Agent · LIC Corp</div></div>
+              <div className="sidebar-avatar" style={{ background:'linear-gradient(135deg,#006064,#00ACC1)' }}>{user?.firstName?.[0]}{user?.lastName?.[0]}</div>
+              <div className="sidebar-user-info"><div className="name">{user?.firstName} {user?.lastName}</div><div className="role">Agent · {user?.company || 'InsurAI'}</div></div>
             </div>
           </div>
           <nav className="sidebar-nav">
@@ -84,7 +84,7 @@ export default function AgentDash() {
             <div className={`sidebar-link${section==='customers'?' active':''}`} onClick={()=>setSection('customers')}><span className="icon">👥</span>My Customers</div>
             <div className="sidebar-section-label">Account</div>
             <div className={`sidebar-link${section==='aprofile'?' active':''}`} onClick={()=>setSection('aprofile')}><span className="icon">👤</span>Profile</div>
-            <div className="sidebar-link" onClick={()=>navigate('/auth')}><span className="icon">🚪</span>Sign Out</div>
+            <div className="sidebar-link" onClick={handleLogout}><span className="icon">🚪</span>Sign Out</div>
           </nav>
         </aside>
 
