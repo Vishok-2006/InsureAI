@@ -27,4 +27,5 @@ target/
 
 # Ignore config with secrets
 application.yml
+application-mysql.yml
 .env
