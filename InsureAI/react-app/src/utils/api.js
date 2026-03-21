@@ -5,10 +5,21 @@ import {
   mockUpdateAppointment, mockMarkNotifRead,
 } from './mockData'
 
-const API_BASE_URL = 'http://localhost:8080/api'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'
 
-// Set to true to always use mock (demo mode without backend)
-const DEMO_MODE = true
+// Set VITE_DEMO_MODE=true to force mocks during local development.
+const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true'
+
+const normalizePlan = (plan) => ({
+  ...plan,
+  name: plan.name || plan.planName,
+  premium: Number(plan.premium ?? plan.monthlyPremium ?? 0),
+  coverageAmount: Number(plan.coverageAmount ?? 0),
+  category: plan.category || 'HEALTH',
+  isFeatured: Boolean(plan.isFeatured),
+  isActive: plan.isActive !== false,
+  features: plan.features || [],
+})
 
 /**
  * Core fetch wrapper — falls back to mock on network error or when DEMO_MODE is on
@@ -58,8 +69,13 @@ export const authApi = {
 
 // ── Plans API ─────────────────────────────────────────────────
 export const planApi = {
-  getPlans: (params = '') =>
-    apiRequest(`/plans${params}`, {}, mockGetPlans),
+  getPlans: async (params = '') => {
+    const response = await apiRequest(`/plans${params}`, {}, mockGetPlans)
+    return {
+      ...response,
+      data: (response.data || []).map(normalizePlan),
+    }
+  },
   getPlanById: (id) =>
     apiRequest(`/plans/${id}`, {}, () => mockGetPlans()),
 }

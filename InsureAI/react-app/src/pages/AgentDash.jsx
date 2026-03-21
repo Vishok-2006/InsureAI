@@ -1,12 +1,9 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useToast } from '../components/ToastProvider'
-import { useAuth } from '../context/AuthContext'
-import { appointmentApi, notificationApi } from '../utils/api'
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
-import { useEffect } from 'react'
-
-const SECTIONS = ['adash','pending','upcoming','ahistory','avail','customers','aprofile']
+import { useToast } from '../components/toastContext'
+import { useAuth } from '../context/authContext'
+import { appointmentApi } from '../utils/api'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 
 export default function AgentDash() {
   const [section, setSection] = useState('adash')
@@ -17,15 +14,7 @@ export default function AgentDash() {
   const toast = useToast()
   const { user, logout } = useAuth()
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/auth')
-      return
-    }
-    fetchAgentData()
-  }, [user])
-
-  const fetchAgentData = async () => {
+  const fetchAgentData = useCallback(async () => {
     try {
       setLoading(true)
       const agentId = user?.id || 1
@@ -33,10 +22,19 @@ export default function AgentDash() {
       setAppointments(resp?.data?.content || [])
     } catch (err) {
       console.error('Failed to fetch agent data:', err)
+      toast('Unable to load appointments', 'Showing an empty state until data is available.', 'warning')
     } finally {
       setLoading(false)
     }
-  }
+  }, [toast, user?.id])
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth')
+      return
+    }
+    fetchAgentData()
+  }, [fetchAgentData, navigate, user])
 
   const handleLogout = () => {
     logout()
@@ -181,7 +179,7 @@ function PendingSection({ toast, appointments, refresh }) {
       else await appointmentApi.reject(id, 'Requested by agent')
       toast(action === 'accept' ? 'Confirmed' : 'Rejected', '', 'success')
       refresh()
-    } catch (err) {
+    } catch {
       toast('Error', 'Action failed', 'error')
     }
   }
@@ -227,7 +225,7 @@ function UpcomingSection({ toast, appointments, refresh }) {
       await appointmentApi.complete(id)
       toast('Success', 'Appointment marked as completed', 'success')
       refresh()
-    } catch (err) {
+    } catch {
       toast('Error', 'Action failed', 'error')
     }
   }

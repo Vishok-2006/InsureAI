@@ -1,24 +1,20 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import { authApi } from '../utils/api';
+import { AuthContext } from './authContext';
 
-const AuthContext = createContext();
+function loadStoredUser() {
+  try {
+    const savedUser = localStorage.getItem('insurai_user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  } catch {
+    localStorage.removeItem('insurai_user');
+    return null;
+  }
+}
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  // Load user from localStorage on init
-  useEffect(() => {
-    try {
-      const savedUser = localStorage.getItem('insurai_user');
-      if (savedUser) {
-        setUser(JSON.parse(savedUser));
-      }
-    } catch {
-      localStorage.removeItem('insurai_user');
-    }
-    setLoading(false);
-  }, []);
+  const [user, setUser] = useState(loadStoredUser);
+  const loading = false;
 
   const login = async (credentials) => {
     const response = await authApi.login(credentials);
@@ -42,17 +38,11 @@ export const AuthProvider = ({ children }) => {
     return await authApi.register(userData);
   };
 
+  const value = useMemo(() => ({ user, login, logout, register, loading }), [loading, user]);
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, register, loading }}>
+    <AuthContext.Provider value={value}>
       {!loading && children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 };

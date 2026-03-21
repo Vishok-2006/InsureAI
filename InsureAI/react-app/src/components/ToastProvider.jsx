@@ -1,10 +1,5 @@
-import { createContext, useContext, useState, useCallback } from 'react'
-
-const ToastCtx = createContext(null)
-
-export function useToast() {
-  return useContext(ToastCtx)
-}
+import { useState, useCallback } from 'react'
+import { ToastCtx } from './toastContext'
 
 let uid = 0
 export default function ToastProvider({ children }) {

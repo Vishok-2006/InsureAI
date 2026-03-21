@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useToast } from '../components/ToastProvider'
-import { useAuth } from '../context/AuthContext'
+import { useToast } from '../components/toastContext'
+import { useAuth } from '../context/authContext'
 
 function PasswordStrength({ password }) {
   const checks = [/.{8,}/, /[A-Z]/, /[0-9]/, /[^A-Za-z0-9]/]
@@ -37,15 +37,21 @@ export default function AuthPage() {
   const toast = useToast()
   const { login, register: signUp } = useAuth()
 
-  function demoLogin(r) {
+  async function demoLogin(r) {
+    const demoEmail = `${r.toLowerCase()}@insurai.com`
+
     setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
+    try {
+      const data = await login({ email: demoEmail, password: 'demo-password' })
       toast('Welcome! 👋', `Logged in as ${r}`, 'success')
-      if (r === 'User') nav('/user')
-      else if (r === 'Agent') nav('/agent')
-      else nav('/admin')
-    }, 900)
+      if (data.role === 'ADMIN') nav('/admin')
+      else if (data.role === 'AGENT') nav('/agent')
+      else nav('/user')
+    } catch (err) {
+      toast('Demo login failed', err.message || 'Please try again', 'error')
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function handleLogin(e) {

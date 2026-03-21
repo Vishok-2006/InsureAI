@@ -78,7 +78,7 @@ export const mockLogin = async ({ email, password }) => {
   throw new Error('Invalid credentials')
 }
 
-export const mockRegister = async (userData) => {
+export const mockRegister = async () => {
   await delay(900)
   return { message: 'Registration successful. Please check your email.' }
 }

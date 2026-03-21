@@ -1,4 +1,4 @@
-s-- ============================================================
+-- ============================================================
 --  InsurAI – MySQL Database Schema
 --  Corporate Insurance Automation & Intelligence System
 --  Version: 1.0.0 | March 2026

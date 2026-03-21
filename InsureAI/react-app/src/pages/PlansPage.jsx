@@ -3,7 +3,18 @@ import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { planApi } from '../utils/api'
 
-const catColors = { Health:'var(--primary)', Life:'var(--success-light)', Accident:'var(--warning)', Addon:'var(--accent)' }
+const catColors = { HEALTH:'var(--primary)', LIFE:'var(--success-light)', ACCIDENTAL:'var(--warning)', ADDON:'var(--accent)' }
+
+const categoryLabel = (category) => {
+  const labels = {
+    HEALTH: 'Health',
+    LIFE: 'Life',
+    ACCIDENTAL: 'Accidental',
+    ADDON: 'Addon',
+    GROUP: 'Group',
+  }
+  return labels[category] || category
+}
 
 const faqs = [
   ['Who is eligible for corporate insurance?', 'All users on payroll are eligible. Part-time users may be eligible based on your company policy. Enrollment is usually within 30 days of joining.'],
@@ -36,7 +47,7 @@ export default function PlansPage() {
     }
   }
 
-  const cats = ['All','Health','Life','Accident','Addon']
+  const cats = ['All','HEALTH','LIFE','ACCIDENTAL','ADDON']
   const filtered = activeCat === 'All' ? plans : plans.filter(p => p.category === activeCat)
   const price = (m) => annual ? Math.floor(m * 10) : m
 
@@ -69,9 +80,9 @@ export default function PlansPage() {
       {/* Filter bar */}
       <div style={{ position:'sticky',top:'var(--nav-height)',zIndex:500,background:'white',borderBottom:'1px solid var(--border)',padding:'.875rem 0' }}>
         <div className="container" style={{ display:'flex',gap:'.5rem',flexWrap:'wrap' }}>
-          {cats.map(c=>(
-            <button key={c} className={`filter-chip${activeCat===c?' active':''}`} onClick={()=>setActiveCat(c)}>{c}</button>
-          ))}
+            {cats.map(c=>(
+              <button key={c} className={`filter-chip${activeCat===c?' active':''}`} onClick={()=>setActiveCat(c)}>{categoryLabel(c)}</button>
+            ))}
         </div>
       </div>
 
@@ -87,7 +98,7 @@ export default function PlansPage() {
                   {p.isFeatured && <div className="plan-badge-featured">⭐ Most Popular</div>}
                   <div className={`plan-header${p.isFeatured?' featured-bg':''}`}>
                     <div style={{ display:'flex',alignItems:'center',gap:'.5rem',marginBottom:'.5rem' }}>
-                      <span className="badge" style={{ background:catColors[p.category]+'20',color:catColors[p.category] }}>{p.category}</span>
+                      <span className="badge" style={{ background:`${catColors[p.category]}20`,color:catColors[p.category] }}>{categoryLabel(p.category)}</span>
                     </div>
                     <div className="plan-name" style={{ color:p.isFeatured?'white':undefined }}>{p.name}</div>
                     <div className="plan-price">

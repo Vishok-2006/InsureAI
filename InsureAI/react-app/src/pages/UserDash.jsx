@@ -1,58 +1,9 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useToast } from '../components/ToastProvider'
-import { useAuth } from '../context/AuthContext'
+import { useToast } from '../components/toastContext'
+import { useAuth } from '../context/authContext'
 import { planApi, appointmentApi, notificationApi, agentApi } from '../utils/api'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
-import { useEffect } from 'react'
-
-function Sidebar({ active, onNav }) {
-  const navItems = [
-    { id:'overview',   icon:'🏠', label:'Dashboard' },
-    { id:'plans',      icon:'📋', label:'My Plans' },
-    { id:'book',       icon:'📅', label:'Book Appointment', separator: true },
-    { id:'history',    icon:'🕒', label:'Appointment History' },
-    { id:'voice',      icon:'🎤', label:'Voice Assistant' },
-    { id:'notifs',     icon:'🔔', label:'Notifications', badge: 3 },
-    { id:'profile',    icon:'👤', label:'My Profile', separator: true },
-  ]
-
-  return (
-    <aside className="sidebar" id="sidebar">
-      <div className="sidebar-header">
-        <div className="sidebar-user">
-          <div className="sidebar-avatar">RK</div>
-          <div className="sidebar-user-info">
-            <div className="name">Ravi Kumar</div>
-            <div className="role">User · IT Dept</div>
-          </div>
-        </div>
-      </div>
-      <nav className="sidebar-nav">
-        {navItems.map(item => (
-          <div key={item.id}>
-            {item.separator && <div className="sidebar-section-label" style={{ marginTop: '.5rem' }}>Account</div>}
-            <div
-              className={`sidebar-link${active === item.id ? ' active' : ''}`}
-              onClick={() => onNav(item.id)}
-            >
-              <span className="icon">{item.icon}</span>
-              {item.label}
-              {item.badge && <span className="badge-count">{item.badge}</span>}
-            </div>
-          </div>
-        ))}
-        <div className="sidebar-link" onClick={() => window.location.href = '/auth'}>
-          <span className="icon">🚪</span> Sign Out
-        </div>
-      </nav>
-    </aside>
-  )
-}
-
-const bookingData = [
-  {month:'Oct',value:1},{month:'Nov',value:2},{month:'Dec',value:0},{month:'Jan',value:3},{month:'Feb',value:2},{month:'Mar',value:1}
-]
 
 // ── Overview Section ──────────────────────────────────────────
 function OverviewSection({ onNav, user, appointments, notifications }) {
@@ -318,15 +269,7 @@ export default function UserDash() {
   const toast = useToast()
   const { user, logout } = useAuth()
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/auth')
-      return
-    }
-    fetchDashboardData()
-  }, [user])
-
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       setLoading(true)
       const userId = user?.id || 1
@@ -340,10 +283,19 @@ export default function UserDash() {
       setNotifications(nData?.data || [])
     } catch (err) {
       console.error('Failed to fetch dashboard data:', err)
+      toast('Unable to refresh dashboard', 'Showing the last available data.', 'warning')
     } finally {
       setLoading(false)
     }
-  }
+  }, [toast, user?.id])
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth')
+      return
+    }
+    fetchDashboardData()
+  }, [fetchDashboardData, navigate, user])
 
   const handleLogout = () => {
     logout()
@@ -437,7 +389,7 @@ export default function UserDash() {
           {section === 'overview' && <OverviewSection onNav={setSection} user={user} appointments={appointments} notifications={notifications} />}
           {section === 'voice'    && <VoiceSection user={user} />}
           {section === 'plans'    && <PlansSection plans={plans} />}
-          {section === 'book'     && <BookSection toast={toast} user={user} onDone={fetchDashboardData} />}
+          {section === 'book'     && <BookSection toast={toast} onDone={fetchDashboardData} />}
           {section === 'history'  && <HistorySection appointments={appointments} />}
           {section === 'notifs'   && <NotifsSection notifications={notifications} onRead={fetchDashboardData} />}
           {section === 'profile'  && <ProfileSection toast={toast} user={user} />}
@@ -480,7 +432,7 @@ function PlansSection({ plans }) {
   )
 }
 
-function BookSection({ toast, user, onDone }) {
+function BookSection({ toast, onDone }) {
   const [step, setStep]     = useState(0)
   const [agent, setAgent]   = useState(null)
   const [date, setDate]     = useState('')
@@ -489,18 +441,18 @@ function BookSection({ toast, user, onDone }) {
   const [agents, setAgents] = useState([])
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    fetchAgents()
-  }, [])
-
-  const fetchAgents = async () => {
+  const fetchAgents = useCallback(async () => {
     try {
       const resp = await agentApi.getAgents()
       setAgents(resp.data || [])
-    } catch (err) {
+    } catch {
       toast('Error', 'Failed to load agents', 'error')
     }
-  }
+  }, [toast])
+
+  useEffect(() => {
+    fetchAgents()
+  }, [fetchAgents])
 
   const slots = ['09:00','09:30','10:00','10:30','11:00', '11:30', '14:00','14:30','15:00','15:30']
 
@@ -671,18 +623,32 @@ function HistorySection({ appointments }) {
 }
 
 function NotifsSection({ notifications, onRead }) {
+  const toast = useToast()
+
   const markRead = async (id) => {
     try {
       await notificationApi.markAsRead(id)
       onRead()
-    } catch (err) {}
+    } catch {
+      toast('Unable to mark notification', 'Please try again.', 'error')
+    }
+  }
+
+  const markAllRead = async () => {
+    try {
+      await Promise.all(notifications.filter(n => !n.isRead).map(n => notificationApi.markAsRead(n.id)))
+      onRead()
+      toast('Notifications updated', 'All notifications marked as read.', 'success')
+    } catch {
+      toast('Unable to mark all notifications', 'Please try again.', 'error')
+    }
   }
 
   return (
     <div>
       <div className="page-header">
         <h2>🔔 Notifications</h2>
-        <button className="btn btn-outline btn-sm">Mark All Read</button>
+        <button className="btn btn-outline btn-sm" onClick={markAllRead} disabled={notifications.every(n => n.isRead)}>Mark All Read</button>
       </div>
       <div className="card">
         <div className="card-body">

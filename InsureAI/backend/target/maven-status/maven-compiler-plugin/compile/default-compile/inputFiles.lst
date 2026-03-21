@@ -23,6 +23,7 @@
 /home/devil/Placement/InsureAI/InsureAI/backend/src/main/java/com/insurai/repository/AppointmentRepository.java
 /home/devil/Placement/InsureAI/InsureAI/backend/src/main/java/com/insurai/service/AppointmentService.java
 /home/devil/Placement/InsureAI/InsureAI/backend/src/main/java/com/insurai/repository/UserRepository.java
+/home/devil/Placement/InsureAI/InsureAI/backend/src/main/java/com/insurai/config/DataSeeder.java
 /home/devil/Placement/InsureAI/InsureAI/backend/src/main/java/com/insurai/service/NotificationService.java
 /home/devil/Placement/InsureAI/InsureAI/backend/src/main/java/com/insurai/service/PlanService.java
 /home/devil/Placement/InsureAI/InsureAI/backend/src/main/java/com/insurai/security/JwtFilter.java

@@ -1,34 +1,19 @@
-# ============================================================
-#  InsurAI – Spring Boot Application Configuration
-# ============================================================
-
 spring:
   application:
     name: insurai-backend
-
-  # ── Database ────────────────────────────────────────────────
-  datasource:
-    url: jdbc:mysql://localhost:3306/insurai?useSSL=false&serverTimezone=Asia/Kolkata&allowPublicKeyRetrieval=true
-    username: devil
-    password: devil
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      maximum-pool-size: 10
-      minimum-idle: 2
-      connection-timeout: 30000
-
-  # ── JPA / Hibernate ─────────────────────────────────────────
+  profiles:
+    default: local
   jpa:
     hibernate:
-      ddl-auto: update           # use 'validate' in production
+      ddl-auto: update
     show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
         use_sql_comments: true
-
-  # ── Email (SMTP) ─────────────────────────────────────────────
+  sql:
+    init:
+      mode: never
   mail:
     host: smtp.gmail.com
     port: 587
@@ -41,21 +26,18 @@ spring:
           starttls:
             enable: true
 
-# ── Server ──────────────────────────────────────────────────
 server:
   port: 8080
   servlet:
     context-path: /api
 
-# ── JWT Security ─────────────────────────────────────────────
 jwt:
   secret: InsurAI_Super_Secret_Key_2026_Corporate_Insurance_System_JWT_256bits
-  expiration: 86400000       # 24 hours in milliseconds
-  refresh-expiration: 604800000  # 7 days
+  expiration: 86400000
+  refresh-expiration: 604800000
 
-# ── App Config ───────────────────────────────────────────────
 insurai:
-  frontend-url: http://localhost:3000
+  frontend-url: http://localhost:5173
   email-from: noreply@insurai.com
   sms:
     provider: twilio
@@ -63,7 +45,6 @@ insurai:
     auth-token: your_twilio_auth_token
     from-number: +1XXXXXXXXXX
 
-# ── Logging ─────────────────────────────────────────────────
 logging:
   level:
     com.insurai: INFO
@@ -72,7 +53,6 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%-5level] %logger{36} - %msg%n"
 
-# ── Actuator ─────────────────────────────────────────────────
 management:
   endpoints:
     web:

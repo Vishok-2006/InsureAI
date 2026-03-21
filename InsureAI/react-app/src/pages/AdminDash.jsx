@@ -1,10 +1,9 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useToast } from '../components/ToastProvider'
-import { useAuth } from '../context/AuthContext'
-import { planApi, agentApi, appointmentApi } from '../utils/api'
+import { useToast } from '../components/toastContext'
+import { useAuth } from '../context/authContext'
+import { planApi, agentApi } from '../utils/api'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
-import { useEffect } from 'react'
 
 const usersData = [
   { name:'Ravi Kumar', email:'ravi.kumar@techcorp.com', dept:'IT', plan:'Premium', joined:'Jan 15, 2023', status:'active' },
@@ -63,7 +62,6 @@ const statusBadge = { confirmed:'badge-success', pending:'badge-warning', cancel
 
 export default function AdminDash() {
   const [section, setSection] = useState('analytics')
-  const [users, setUsers] = useState([])
   const [agents, setAgents] = useState([])
   const [plans, setPlans] = useState([])
   const [loading, setLoading] = useState(true)
@@ -73,15 +71,8 @@ export default function AdminDash() {
   const { user, logout } = useAuth()
   
   const [addUserOpen, setAddUserOpen]   = useState(false)
-  const [addAgentOpen, setAddAgentOpen] = useState(false)
-  const [addPlanOpen, setAddPlanOpen]   = useState(false)
 
-  useEffect(() => {
-    if (!user) { navigate('/auth'); return }
-    fetchAdminData()
-  }, [user])
-
-  const fetchAdminData = async () => {
+  const fetchAdminData = useCallback(async () => {
     try {
       setLoading(true)
       const [aData, pData] = await Promise.all([
@@ -92,10 +83,16 @@ export default function AdminDash() {
       setPlans(pData?.data || plansData.map((p,i) => ({ id: i+1, name: p.name, category: p.cat, premium: parseInt(p.premium.replace(/[₹,]/g,'')), coverageAmount: parseInt(p.cov.replace(/[₹,]/g,'')), isActive: p.active, subscribers: p.subs })))
     } catch (err) {
       console.error(err)
+      toast('Unable to load admin data', 'Showing the dashboard with available demo data.', 'warning')
     } finally {
       setLoading(false)
     }
-  }
+  }, [toast])
+
+  useEffect(() => {
+    if (!user) { navigate('/auth'); return }
+    fetchAdminData()
+  }, [fetchAdminData, navigate, user])
 
   const handleLogout = () => {
     logout()
@@ -144,8 +141,8 @@ export default function AdminDash() {
         <main className="main-content">
           {section==='analytics'  && <AnalyticsSection agents={agents} plans={plans} />}
           {section==='users'      && <UsersSection toast={toast} onAdd={()=>setAddUserOpen(true)} />}
-          {section==='agents'     && <AgentsSection toast={toast} agents={agents} onAdd={()=>setAddAgentOpen(true)} />}
-          {section==='adminplans' && <AdminPlans toast={toast} plans={plans} onAdd={()=>setAddPlanOpen(true)} />}
+          {section==='agents'     && <AgentsSection agents={agents} onAdd={()=>toast('Add agent', 'Connect a create-agent flow to persist new agents.', 'info')} />}
+          {section==='adminplans' && <AdminPlans plans={plans} onAdd={()=>toast('Create plan', 'Connect a create-plan flow to persist new plans.', 'info')} />}
           {section==='allappts'   && <AllApptsSection toast={toast} />}
           {section==='adminnotif' && <AdminNotifSection toast={toast} />}
           {section==='settings'   && <SettingsSection toast={toast} />}
@@ -292,7 +289,7 @@ function UsersSection({ toast, onAdd }) {
   )
 }
 
-function AgentsSection({ toast, agents, onAdd }) {
+function AgentsSection({ agents, onAdd }) {
   return (
     <div>
       <div className="page-header"><h2>🧑‍💼 Agent Management</h2><p>Manage insurance agents, verify credentials, and track performance.</p></div>
@@ -326,7 +323,7 @@ function AgentsSection({ toast, agents, onAdd }) {
   )
 }
 
-function AdminPlans({ toast, plans, onAdd }) {
+function AdminPlans({ plans, onAdd }) {
   return (
     <div>
       <div className="page-header"><h2>📋 Plan Management</h2><p>Create, edit, and manage all available corporate insurance plans.</p></div>

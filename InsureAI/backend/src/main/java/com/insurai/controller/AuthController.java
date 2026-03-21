@@ -1,9 +1,11 @@
 package com.insurai.controller;
 
-import com.insurai.dto.*;
+import com.insurai.dto.ApiResponse;
+import com.insurai.dto.AuthDTOs.LoginRequest;
+import com.insurai.dto.AuthDTOs.LoginResponse;
+import com.insurai.dto.AuthDTOs.RegisterRequest;
 import com.insurai.service.AuthService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +15,13 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     /**
      * POST /auth/register

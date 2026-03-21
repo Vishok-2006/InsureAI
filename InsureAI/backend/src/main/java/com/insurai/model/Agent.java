@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class Agent {
     @DecimalMin("0.0") @DecimalMax("5.0")
     @Column(name = "average_rating", precision = 3, scale = 2)
     @Builder.Default
-    private Double averageRating = 0.0;
+    private BigDecimal averageRating = BigDecimal.ZERO;
 
     @Column(name = "total_reviews")
     @Builder.Default
