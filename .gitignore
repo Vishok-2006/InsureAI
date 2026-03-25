@@ -1,0 +1,40 @@
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+*.suo
+*.swp
+*.swo
+
+# Environment and local secrets
+**/.env
+**/.env.local
+**/.env.*.local
+!**/.env.example
+
+# Java / Maven / Eclipse
+**/target/
+**/*.class
+**/.classpath
+**/.project
+**/.settings/
+
+# Node / frontend build output
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/build/
+**/.next/
+**/out/
+**/coverage/
+
+# Local databases and logs
+**/*.mv.db
+**/*.trace.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

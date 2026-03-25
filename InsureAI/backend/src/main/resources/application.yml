@@ -1,8 +1,16 @@
 spring:
   application:
     name: insurai-backend
-  profiles:
-    default: local
+  config:
+    import: optional:file:../.env[.properties],optional:file:.env[.properties]
+  datasource:
+    url: ${DB_URL:jdbc:h2:file:./data/insurai;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
+    hikari:
+      maximum-pool-size: ${DB_MAX_POOL_SIZE:10}
+      minimum-idle: ${DB_MIN_IDLE:2}
+      connection-timeout: ${DB_CONNECTION_TIMEOUT:30000}
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,6 +22,10 @@ spring:
   sql:
     init:
       mode: never
+  h2:
+    console:
+      enabled: ${H2_CONSOLE_ENABLED:true}
+      path: /h2-console
   mail:
     host: smtp.gmail.com
     port: 587

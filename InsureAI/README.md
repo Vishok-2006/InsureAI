@@ -156,7 +156,8 @@ Key tables:
 mysql -u root -p < backend/src/main/resources/schema.sql
 
 # 2. Configure database credentials
-nano backend/src/main/resources/application.yml
+cp .env.example .env
+nano .env
 
 # 3. Build and run
 cd backend
@@ -164,6 +165,8 @@ mvn clean install
 mvn spring-boot:run
 ```
 > API will be available at `http://localhost:8080/api`
+
+The backend now loads database settings automatically from the project-level `.env` file. If `.env` is missing, it falls back to the bundled H2 database for local development.
 
 ### Frontend Setup
 Simply open the HTML files in a browser:
