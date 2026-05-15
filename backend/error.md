@@ -1,0 +1,74 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--------------------< [0;36mcom.insurai:insurai-backend[0;1m >---------------------[m
+[[1;34mINFO[m] [1mBuilding InsurAI Backend 1.0.0[m
+[[1;34mINFO[m]   from pom.xml
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m>>> [0;32mspring-boot:3.2.3:run[m [1m(default-cli)[0;1m > [0;1mtest-compile[m @ [36minsurai-backend[0;1m >>>[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36minsurai-backend[0;1m ---[m
+[[1;34mINFO[m] Copying 3 resources from src/main/resources to target/classes
+[[1;34mINFO[m] Copying 1 resource from src/main/resources to target/classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mcompiler:3.11.0:compile[m [1m(default-compile)[m @ [36minsurai-backend[0;1m ---[m
+[[1;34mINFO[m] Nothing to compile - all classes are up to date
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36minsurai-backend[0;1m ---[m
+[[1;34mINFO[m] skip non existing resourceDirectory /home/devil/Project/InsureAI/backend/src/test/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mcompiler:3.11.0:testCompile[m [1m(default-testCompile)[m @ [36minsurai-backend[0;1m ---[m
+[[1;34mINFO[m] No sources to compile
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m<<< [0;32mspring-boot:3.2.3:run[m [1m(default-cli)[0;1m < [0;1mtest-compile[m @ [36minsurai-backend[0;1m <<<[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mspring-boot:3.2.3:run[m [1m(default-cli)[m @ [36minsurai-backend[0;1m ---[m
+[[1;34mINFO[m] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.3)
+
+2026-05-15 21:03:28 [INFO ] com.insurai.InsurAIApplication - Starting InsurAIApplication using Java 21.0.11 with PID 101936 (/home/devil/Project/InsureAI/backend/target/classes started by devil in /home/devil/Project/InsureAI/backend)
+2026-05-15 21:03:28 [INFO ] com.insurai.InsurAIApplication - No active profile set, falling back to 1 default profile: "default"
+2026-05-15 21:03:29 [INFO ] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-15 21:03:30 [INFO ] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 205 ms. Found 5 JPA repository interfaces.
+2026-05-15 21:03:31 [INFO ] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-15 21:03:31 [INFO ] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-15 21:03:31 [INFO ] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2026-05-15 21:03:31 [INFO ] o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2026-05-15 21:03:31 [INFO ] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3492 ms
+2026-05-15 21:03:31 [INFO ] o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-15 21:03:32 [INFO ] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-05-15 21:03:32 [INFO ] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-05-15 21:03:32 [INFO ] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-15 21:03:32 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-05-15 21:03:32 [INFO ] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2e3252
+2026-05-15 21:03:32 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-05-15 21:03:32 [WARN ] o.h.e.j.e.i.JdbcEnvironmentInitiator - HHH000339: Could not obtain connection metadata: java.sql.SQLSyntaxErrorException: Unknown column 'RESERVED' in 'WHERE'
+2026-05-15 21:03:32 [WARN ] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-15 21:03:34 [INFO ] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-15 21:03:34 [INFO ] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-15 21:03:35 [WARN ] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-15 21:03:36 [INFO ] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api'
+2026-05-15 21:03:36 [INFO ] com.insurai.InsurAIApplication - Started InsurAIApplication in 8.93 seconds (process running for 9.48)
+????????????????????????????????????????????????????
+?      InsurAI Backend ? Server Started! ??         ?
+?   REST API available at http://localhost:8080    ?
+?   Corporate Insurance Automation & AI System     ?
+????????????????????????????????????????????????????
+
+2026-05-15 21:03:50 [INFO ] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-15 21:03:50 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-05-15 21:03:50 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  27.481 s
+[[1;34mINFO[m] Finished at: 2026-05-15T21:03:50+05:30
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
