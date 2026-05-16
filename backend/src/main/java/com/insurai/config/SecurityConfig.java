@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import com.insurai.security.JwtAuthenticationEntryPoint;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,12 +23,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-/**
- * Spring Security configuration.
- * - JWT stateless authentication
- * - Role-based access control
- * - CORS configuration for frontend
- */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
@@ -34,31 +30,50 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .cors(Customizer.withDefaults())
             .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .exceptionHandling(errors -> errors
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+            )
             .authorizeHttpRequests(auth -> auth
-                // Public endpoints
-                .requestMatchers("/auth/register", "/auth/login",
-                                 "/auth/forgot-password", "/auth/verify-email",
-                                 "/plans", "/plans/{id}",
-                                 "/actuator/health").permitAll()
-                // User-only endpoints
-                .requestMatchers("/appointments/book", "/appointments/user/**",
-                                 "/notifications/user/**").hasAnyRole("USER")
-                // Agent-only endpoints
-                .requestMatchers("/appointments/agent/**",
-                                 "/agents/*/availability").hasAnyRole("AGENT")
-                // Agent + User
-                .requestMatchers(HttpMethod.GET, "/agents").hasAnyRole("USER", "ADMIN")
-                // Admin-only endpoints
-                .requestMatchers("/admin/**", "/users", "/users/**").hasRole("ADMIN")
-                // All authenticated users
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers(
+                    "/api/auth/**",
+                    "/auth/**"
+                ).permitAll()
+                .requestMatchers(
+                    "/api/plans/**",
+                    "/plans/**"
+                ).permitAll()
+                .requestMatchers(
+                    "/actuator/health"
+                ).permitAll()
+                .requestMatchers(
+                    "/api/appointments/book",
+                    "/api/appointments/user/**",
+                    "/api/notifications/user/**"
+                ).hasAnyRole("USER")
+                .requestMatchers(
+                    "/api/appointments/agent/**",
+                    "/api/agents/*/availability"
+                ).hasRole("AGENT")
+                .requestMatchers(
+                    HttpMethod.GET,
+                    "/api/agents"
+                ).hasAnyRole("USER", "ADMIN")
+                .requestMatchers(
+                    "/api/admin/**",
+                    "/api/users/**"
+                ).hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -68,15 +83,36 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:*", "http://127.0.0.1:*"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
+
+        config.setAllowedOriginPatterns(List.of(
+            "http://localhost:*",
+            "http://127.0.0.1:*"
+        ));
+
+        config.setAllowedMethods(List.of(
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "OPTIONS"
+        ));
+
+        config.setAllowedHeaders(List.of("*"));
+
         config.setAllowCredentials(true);
+
+        config.setExposedHeaders(List.of("Authorization"));
+
         config.setMaxAge(3600L);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source =
+            new UrlBasedCorsConfigurationSource();
+
         source.registerCorsConfiguration("/**", config);
+
         return source;
     }
 
@@ -86,8 +122,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
-            throws Exception {
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration config) throws Exception {
+
         return config.getAuthenticationManager();
     }
 }

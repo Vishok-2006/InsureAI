@@ -7,8 +7,8 @@ import {
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'
 
-// Set VITE_DEMO_MODE=true to force mocks during local development.
-const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true'
+// Explicit demo mode only. Do not fall back automatically on network failures.
+export const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true'
 
 const normalizePlan = (plan) => ({
   ...plan,
@@ -36,19 +36,37 @@ export const apiRequest = async (endpoint, options = {}, mockFn = null) => {
   }
   if (token) headers['Authorization'] = `Bearer ${token}`
 
-  try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, { ...options, headers })
-    const data = await response.json()
-    if (!response.ok) throw new Error(data.message || 'Something went wrong')
-    return data
-  } catch (error) {
-    if (mockFn) {
-      console.warn(`[API] Backend unreachable for ${endpoint}, using mock data`)
-      return await mockFn()
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, { ...options, headers })
+  const text = await response.text()
+  let data = null
+
+  if (text) {
+    try {
+      data = JSON.parse(text)
+    } catch {
+      data = null
     }
-    console.error('API Request Error:', error)
+  }
+
+  if (!response.ok) {
+    const errorMessage = data?.message || `Request failed with status ${response.status}`
+    const error = new Error(errorMessage)
+    error.status = response.status
+    error.response = data
+    // If unauthorized, clear local auth and notify app to handle logout
+    if (response.status === 401) {
+      try {
+        localStorage.removeItem('insurai_token')
+        localStorage.removeItem('insurai_user')
+      } catch {}
+      try {
+        window.dispatchEvent(new CustomEvent('auth:logout'))
+      } catch {}
+    }
     throw error
   }
+
+  return data
 }
 
 // ── Auth API ─────────────────────────────────────────────────

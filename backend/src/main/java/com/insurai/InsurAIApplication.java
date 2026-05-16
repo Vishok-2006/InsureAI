@@ -30,7 +30,7 @@ public class InsurAIApplication {
         SpringApplication.run(InsurAIApplication.class, args);
         System.out.println("""
             ╔══════════════════════════════════════════════════╗
-            ║      InsurAI Backend – Server Started! 🛡️         ║
+            ║      InsurAI Backend – Server Started! 🛡️        ║
             ║   REST API available at http://localhost:8080    ║
             ║   Corporate Insurance Automation & AI System     ║
             ╚══════════════════════════════════════════════════╝

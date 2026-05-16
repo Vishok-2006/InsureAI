@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useToast } from '../components/toastContext'
 import { useAuth } from '../context/authContext'
-import { planApi, appointmentApi, notificationApi, agentApi } from '../utils/api'
+import { DEMO_MODE, planApi, appointmentApi, notificationApi, agentApi } from '../utils/api'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 
 // ── Overview Section ──────────────────────────────────────────
@@ -385,7 +385,9 @@ export default function UserDash() {
         </aside>
 
         <main className="main-content">
-          <div className="demo-banner">✅ Demo Mode: Running with mock data — no backend required. Use real credentials once Spring Boot is running.</div>
+          {DEMO_MODE && (
+            <div className="demo-banner">✅ Demo Mode: Running with mock data — no backend required. Use real credentials once Spring Boot is running.</div>
+          )}
           {section === 'overview' && <OverviewSection onNav={setSection} user={user} appointments={appointments} notifications={notifications} />}
           {section === 'voice'    && <VoiceSection user={user} />}
           {section === 'plans'    && <PlansSection plans={plans} />}

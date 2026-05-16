@@ -1,5 +1,6 @@
 package com.insurai.security;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,21 +34,21 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
-
-        // Only process requests with Bearer token
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        try {
-            final String token = authHeader.substring(7);
-            final String email = jwtUtil.extractEmail(token);
+        final String token = authHeader.substring(7).trim();
+        if (token.isBlank() || !token.contains(".")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-            // Authenticate if email found and context is empty
+        try {
+            String email = jwtUtil.extractEmail(token);
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-
                 if (jwtUtil.validateToken(token, userDetails.getUsername())) {
                     UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
@@ -55,10 +56,13 @@ public class JwtFilter extends OncePerRequestFilter {
                         );
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                } else {
+                    SecurityContextHolder.clearContext();
+                    logger.warn("JWT token validation failed or token expired for user: " + email);
                 }
             }
-        } catch (Exception e) {
-            // Invalid token – proceed without authentication
+        } catch (JwtException | IllegalArgumentException e) {
+            SecurityContextHolder.clearContext();
             logger.warn("JWT processing failed: " + e.getMessage());
         }
 
